@@ -1,6 +1,6 @@
 from machininglearning.gatherbehavior import StateAction
 from machininglearning.gatherbehavior import Item
-from machininglearning.tools import strTo
+from machininglearning.tools import StrTo
 from datetime import datetime
 
 DATA_ACTIONS = "dataAction.csv"
