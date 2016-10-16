@@ -8,17 +8,18 @@ class Item:
         DataTurnOff: an array of StateAction recording each interaction with the current instance for 7 days
 """
 
-from machininglearning.gatherbehavior import StateAction
 from machininglearning.Tools import Mauchly
 
 class Item:
 
-    def __init__(self, no, name, dataTurnOn, dataTurnOff):
+    def __init__(self, no, name, dataOn, dataOff):
         self._no = no
         self._name = name
-        #self._timeSlots = timeSlots
-        self._dataOn = dataTurnOn
-        self._dataOff = dataTurnOff
+        self._dataOn = dataOn
+        self._dataOff = dataOff
+
+    def __init__(self, no, name):
+        self(no, name, [], [])
 
     @property
     def no(self):
