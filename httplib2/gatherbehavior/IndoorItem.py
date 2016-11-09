@@ -18,9 +18,6 @@ class IndoorItem(object):
         self._dataOn = dataOn
         self._dataOff = dataOff
 
-    def __init__(self, no, name):
-        self(no, name, [], [])
-
     @property
     def no(self):
         return self._no

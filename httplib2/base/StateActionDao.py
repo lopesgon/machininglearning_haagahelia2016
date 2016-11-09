@@ -1,19 +1,21 @@
-from httplib2.gatherbehavior.IndoorItem import IndoorItem
+from httplib2.gatherbehavior.IndoorItem import *
 from httplib2.gatherbehavior.StateAction import *
 from httplib2.tools import StrTo
 from datetime import datetime
 
-DATA_ACTIONS = "dataAction.csv"
+#DATA_ACTIONS = "dataAction.csv"
 DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
+
 class StateActionDao(object):
+
     @staticmethod
-    def readAction(lstItems):
-        fichier = open(DATA_ACTIONS, "r")
+    def readAction(lstItems, data_actions):
+        fichier = open(data_actions, "r")
         items = fichier.read()
         tab = items.splitlines()
         for actionLine in tab:
             itemNumber = actionLine.split(";")[0]
-            ind = lstItems.index(IndoorItem(itemNumber, ""))
+            ind = lstItems.index(IndoorItem(itemNumber, "", [], []))
             item = lstItems[ind]
             action = StateActionDao._readActionLine(actionLine)
             item._addAction(action)

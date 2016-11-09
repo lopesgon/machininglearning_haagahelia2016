@@ -9,23 +9,15 @@ from httplib2.tools.StrTo import StrTo
 from httplib2.base.StateActionDao import StateActionDao
 from httplib2.base.ItemDao import ItemDao
 
-
-class Main:
-
-    if __name__ == "__main__":
-        # lstPers = _readFile()
-        # _mainMenu(lstPers)
-        global FILENAME
-        FILENAME = "dataItems.csv"
-
-        global lstItems
-        lstItems = []
-        StrTo.strUnderline("Items Loading")
-        ItemDao.readItem(FILENAME)
-        StrTo.strUnderline("Action Loading")
-        print("\n")
-        lstItems
-        StateActionDao.readAction(lstItems)
-        StrTo.strUnderline("List of Items with their Data")
-        for item in lstItems:
-            print(item)
+if __name__ == "__main__":
+    ITEMS_FILE = "dataItems.csv"
+    DATA_ACTIONS = "dataAction.csv"
+    lstItems = []
+    StrTo.strUnderline("Items Loading")
+    ItemDao.readItem(lstItems, ITEMS_FILE)
+    StrTo.strUnderline("Action Loading")
+    print("\n")
+    StateActionDao.readAction(lstItems, DATA_ACTIONS)
+    StrTo.strUnderline("List of Items with their Data")
+    for item in lstItems:
+        print(item)

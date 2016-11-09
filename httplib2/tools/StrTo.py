@@ -1,4 +1,5 @@
 class StrTo(object):
+
     @staticmethod
     def strToBool(s):
         if s == 'true':
