@@ -1,4 +1,5 @@
 from datetime import datetime
+from httplib2.tools.ComparableTime import ComparableTime
 
 class StateAction(object):
     global DATE_FORMAT
@@ -21,6 +22,9 @@ class StateAction(object):
     def frequency(self):
         return self._frequency
 
+    def comparaisonDateTime(self,date2):
+        return ComparableTime.CompareDateWithTime(self.date,date2)
+
     def __str__(self):
         return self.date.strftime(DATE_FORMAT)
 
@@ -36,23 +40,19 @@ class StateAction(object):
             return self.date == other.date
 
     def __lt__(self, other):
-        return self.date < other.date
+        result = self.comparaisonDateTime(other.date)
+        result = ComparableTime.CompareDateWithTime(self.date,other.date)
+        return result == -1
 
     def __gt__(self, other):
-        return other.date < self.date
+        result = self.comparaisonDateTime(other.date)
+        return result == 1
 
     def __le__(self, other):
-        if self.__eq__(other):
-            return True
-        if self.__lt__(other):
-            return True
-        else:
-            return False
+        result = self.comparaisonDateTime(other.date)
+        return result == -1 or result == 0
 
     def __ge__(self, other):
-        if self.__eq__(other):
-            return True
-        if self.__gt__(other):
-            return True
-        else:
-            return False
+        result = self.comparaisonDateTime(other.date)
+        return result == 1 or result == 0
+

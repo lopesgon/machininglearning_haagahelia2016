@@ -1,4 +1,4 @@
-1;Light
-2;Door
-3;Cooker
-4;CoffeeMachine
+1;Light;light_on.csv;light_off.csv
+2;Door;door_on.csv;door_off.csv
+3;Cooker;cooker_on.csv;cooker_off.csv
+4;CoffeeMachine;coffeemachine_on.csv;coffeemachine_off.csv

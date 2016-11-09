@@ -12,9 +12,11 @@ from httplib2.tools.Mauchly import Mauchly
 
 class IndoorItem(object):
 
-    def __init__(self, no, name, dataOn, dataOff):
+    def __init__(self, no, name,fileDataOn,fileDataOff, dataOn, dataOff):
         self._no = no
         self._name = name
+        self._fileDataOn = fileDataOn
+        self._fileDataOff = fileDataOff
         self._dataOn = dataOn
         self._dataOff = dataOff
 
@@ -25,6 +27,14 @@ class IndoorItem(object):
     @property
     def name(self):
         return self._name
+
+    @property
+    def fileDataOn(self):
+        return self._fileDataOn
+
+    @property
+    def fileDataOff(self):
+        return self._fileDataOff
 
     @property
     def dataOn(self):

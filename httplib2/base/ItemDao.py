@@ -19,5 +19,7 @@ class ItemDao(object):
         lstFeatures = lineItem.split(";")
         no = lstFeatures[0]
         name = lstFeatures[1]
-        indItem = IndoorItem(no, name, [], [])
+        fileDataOn = lstFeatures[2]
+        fileDataOff = lstFeatures[3]
+        indItem = IndoorItem(no, name,fileDataOn,fileDataOff, [], [])
         return indItem
