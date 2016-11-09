@@ -1,6 +1,6 @@
 from httplib2.gatherbehavior.IndoorItem import *
 from httplib2.gatherbehavior.StateAction import *
-from httplib2.tools import StrTo
+from httplib2.tools.StrTo import StrTo
 from datetime import datetime
 
 #DATA_ACTIONS = "dataAction.csv"

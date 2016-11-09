@@ -1,4 +1,4 @@
-class Mauchly:
+class Mauchly(object):
 
     @staticmethod
     def getPosition(lst, c):
@@ -14,7 +14,7 @@ class Mauchly:
             g = 0
             d = n
             while g < d - 1:
-                m = (g + d) / 2
+                m = int((g + d) / 2)
                 if c >= lst[m]:
                     g = m
                 else:
