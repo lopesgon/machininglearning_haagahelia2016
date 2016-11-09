@@ -21,7 +21,7 @@ def readAction(lstItems):
 @staticmethod
 def _readActionLine(actionLine):
     lstFeatures = actionLine.split(";")
-    actionType = strToBool(lstFeatures[1])
+    actionType = StrTo.strToBool(lstFeatures[1])
     date = date_object = datetime.strptime(lstFeatures[2], DATE_FORMAT)
     frequency = lstFeatures[3]
     action = StateAction(actionType, date, frequency)

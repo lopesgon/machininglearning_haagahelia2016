@@ -4,7 +4,7 @@
 #2016-2017, semester 5
 
 def main():
-    print("Hello World!")
+    print("The software is on. Please wait a minute, the computer is analyzing all data stored.")
 
 
 if __name__ == "__main__" :
