@@ -8,9 +8,9 @@ class Item:
         DataTurnOff: an array of StateAction recording each interaction with the current instance for 7 days
 """
 
-from machininglearning.tools import Mauchly
+from httplib2.tools import Mauchly
 
-class Item:
+class IndoorItem(object):
 
     def __init__(self, no, name, dataOn, dataOff):
         self._no = no

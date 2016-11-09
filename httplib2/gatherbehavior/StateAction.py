@@ -1,6 +1,6 @@
 from datetime import datetime
 
-class StateAction:
+class StateAction(object):
     global DATE_FORMAT
     DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
 

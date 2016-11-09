@@ -1,24 +1,26 @@
-from machininglearning.gatherbehavior import Item
+from httplib2.gatherbehavior.IndoorItem import IndoorItem
 
-DATA_ITEM = "dataItems.csv"
+#global data = "dataItems.csv"
 
-@staticmethod
-def readItem():
-    global lstItems
-    lstItems = []
-    fichier = open(DATA_ITEM, "r")
-    items = fichier.read()
-    tab = items.splitlines()
-    for lineItem in tab:
-        item = _readLine(lineItem)
-        if item not in lstItems:
-            lstItems.append(item)
-            print(item.name)
-    fichier.close()
+class ItemDao(object):
 
-@staticmethod
-def _readLine(lineItem):
-    lstFeatures = lineItem.split(";")
-    no = lstFeatures[0]
-    name = lstFeatures[1]
-    return Item(no, name)
+    @staticmethod
+    def readItem(data):
+        global lstItems
+        lstItems = []
+        fichier = open(data, "r")
+        items = fichier.read()
+        tab = items.splitlines()
+        for lineItem in tab:
+            item = ItemDao._readLine(lineItem)
+            if item not in lstItems:
+                lstItems.append(item)
+                print(item.name)
+        fichier.close()
+
+    @staticmethod
+    def _readLine(lineItem):
+        lstFeatures = lineItem.split(";")
+        no = lstFeatures[0]
+        name = lstFeatures[1]
+        return IndoorItem(no, name)
