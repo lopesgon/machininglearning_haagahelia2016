@@ -52,26 +52,26 @@ class Calculator(object):
         for act in lstActions:
             d = act.date
             if d.minute >= 30:
-                lstHours[act.date.hour+1].append(act)
+                lstHours[act.date.hour*2+1].append(act)
             else:
-                lstHours[act.date.hour].append(act)
+                lstHours[act.date.hour*2].append(act)
 
 
     #Parameter: lstHours --> list of all StateAction regroupped in different array
     #Return: the lstStateAction with the biggest frequency
-    #Action: go through all StateAction array
+    #Action: go through all StateAction array and get the mod
     @staticmethod
     def showFreqPerHour(lstHours):
         ind = 0
-        mod = len(lstHours[0])
-        print("Hour: " + str(0) + " Frequency: " + str(len(lstHours[0])))
+        mod = Calculator.getFrequency(lstHours[0])
+        print("Hour: " + str(0) + " Frequency: " + str(mod))
         for i in range(1,len(lstHours)):
             f = Calculator.getFrequency(lstHours[i])
             if mod < f:
                 mod = f
                 ind = i
             print("Hour: " + str(i) + " Frequency: " + str(f))
-        print("Mod = " + str(mod) + " à l'heure  " + str(ind))
+        print("Mod = " + str(mod) + " à l'heure  " + str(ind/2))
         return lstHours[ind]
 
 
@@ -80,18 +80,18 @@ class Calculator(object):
     #Action: go through the array and addition the frequency of each action.frequency
     @staticmethod
     def getFrequency(lstStateAction):
-        f = 0
+        f = int(0)
         for act in lstStateAction:
-            f = int(f) + int(act.frequency)
+            f = f + act.frequency
         return f
 
 
     #Parameter: lstHours --> an array for storing other table
     #Action: add new table in lstHours
-    #Nb table added: 24
+    #Nb table added: 48
     @staticmethod
     def addHours(lstHours):
-        for i in range(0,24):
+        for i in range(0,48):
             hour = []
             lstHours.append(hour)
 

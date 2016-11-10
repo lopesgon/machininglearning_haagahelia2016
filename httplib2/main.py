@@ -28,10 +28,7 @@ if __name__ == "__main__":
     for item in lstItems:
         StateActionDao.readAllActions(item)
 
-
     StrTo.strUnderline("List of Items with their Data")
-
-
     for item in lstItems:
         print(item)
 
@@ -39,8 +36,6 @@ if __name__ == "__main__":
     it = lstItems[0]
     print(it)
     lst = it.dataOn
-    for a in lst:
-        print(a)
 
     Calculator.timeslotsGenerator(lst)
 

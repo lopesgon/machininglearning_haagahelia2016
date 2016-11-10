@@ -8,7 +8,7 @@ class StateAction(object):
     def __init__(self, type, date, frequency):
         self._type = type
         self._date = date
-        self._frequency = frequency
+        self._frequency = int(frequency)
 
     @property
     def typeAction(self):
