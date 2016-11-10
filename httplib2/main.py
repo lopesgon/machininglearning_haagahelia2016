@@ -33,10 +33,12 @@ if __name__ == "__main__":
         print(item)
 
     StrTo.strUnderline("Show Frequency per hour")
-    it = lstItems[0]
-    print(it)
-    lst = it.dataOn
 
-    Calculator.timeslotsGenerator(lst)
+    for item in lstItems:
+        print(item.name)
+        print("Data on")
+        Calculator.timeslotsGenerator(item.dataOn)
+        print("Data off")
+        Calculator.timeslotsGenerator(item.dataOff)
 
 

@@ -7,15 +7,18 @@ class Calculator(object):
     """
     @staticmethod
     def timeslotsGenerator(lstActions):
-        print(len(lstActions))
-        #Create the tree for the time slots
-        lstHours = []
-        Calculator.addHours(lstHours)
-        #Place the Actions in the right place
-        Calculator.manageAction(lstActions,lstHours)
-        tabActions = Calculator.showFreqPerHour(lstHours)
-        nbSeconds = Calculator.calculateAverageActions(tabActions)
-        Calculator.getTimeFromSeconds(nbSeconds)
+        if len(lstActions)>0:
+            print(len(lstActions))
+            #Create the tree for the time slots
+            lstHours = []
+            Calculator.addHours(lstHours)
+            #Place the Actions in the right place
+            Calculator.manageAction(lstActions,lstHours)
+            tabActions = Calculator.showFreqPerHour(lstHours)
+            nbSeconds = Calculator.calculateAverageActions(tabActions)
+            Calculator.getTimeFromSeconds(nbSeconds)
+        else:
+            print("Il n'y a pas de StateAction!")
 
     #Parameter: seconds
     #Parameter Type: int
@@ -51,7 +54,6 @@ class Calculator(object):
     def manageAction(lstActions,lstHours):
         for act in lstActions:
             d = act.date
-
             if d.minute >= 45:
                 lstHours[act.date.hour * 4 + 3].append(act)
             elif d.minute >= 30:
@@ -69,14 +71,17 @@ class Calculator(object):
     def showFreqPerHour(lstHours):
         ind = 0
         mod = Calculator.getFrequency(lstHours[0])
+        sumFrequency = int(0)
         print("Hour: " + str(0) + " Frequency: " + str(mod))
         for i in range(1,len(lstHours)):
             f = Calculator.getFrequency(lstHours[i])
             if mod < f:
                 mod = f
                 ind = i
+            sumFrequency = sumFrequency + f
             print("Hour: " + str(i) + " Frequency: " + str(f))
-        print("Mod = " + str(mod) + " à l'heure  " + str(ind/2))
+        print("Sum of frequencies = " + str(sumFrequency))
+        print("Mod = " + str(mod) + " à l'heure  " + str(ind/4))
         return lstHours[ind]
 
 
