@@ -10,7 +10,7 @@ from datetime import datetime
 from httplib2.tools.StrTo import StrTo
 from httplib2.base.StateActionDao import StateActionDao
 from httplib2.base.ItemDao import ItemDao
-from httplib2.tools.ComparableTime import ComparableTime
+from httplib2.machinelearning.Calculator import Calculator
 
 if __name__ == "__main__":
     ITEMS_FILE = "dataItems.csv"
@@ -35,28 +35,13 @@ if __name__ == "__main__":
     for item in lstItems:
         print(item)
 
-    StrTo.strUnderline("Data Comparaison - Date complète ")
+    StrTo.strUnderline("Show Frequency per hour")
+    it = lstItems[0]
+    print(it)
+    lst = it.dataOn
+    for a in lst:
+        print(a)
 
-    DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
+    Calculator.timeslotsGenerator(lst)
 
-    d1 = datetime.strptime("07.10.2016 10:10:00", DATE_FORMAT)
-    d2 = datetime.strptime("08.10.2016 10:10:10", DATE_FORMAT)
-    if d1 > d2 :
-        print("D1 " + str(d1))
-    else:
-        print("D2 " + str(d2))
-
-
-
-    ##################################################################
-
-    StrTo.strUnderline("Data Comparaison - time")
-
-    result = ComparableTime.CompareDateWithTime(d1,d2)
-    if result == 1:
-        print(d1 )
-    elif result == -1:
-        print(d2)
-    else:
-        print("Equals")
 
