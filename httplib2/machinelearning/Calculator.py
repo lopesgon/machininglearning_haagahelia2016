@@ -8,49 +8,65 @@ class Calculator(object):
     @staticmethod
     def timeslotsGenerator(lstActions):
         print(len(lstActions))
+        #Create the tree for the time slots
         lstHours = []
         Calculator.addHours(lstHours)
+        #Place the Actions in the right place
         Calculator.manageAction(lstActions,lstHours)
         tabActions = Calculator.showFreqPerHour(lstHours)
         nbSeconds = Calculator.calculateAverageActions(tabActions)
         Calculator.getTimeFromSeconds(nbSeconds)
 
+    #Parameter: seconds
+    #Parameter Type: int
+    #Action: convert seconds into format HH:MM:SS
     @staticmethod
     def getTimeFromSeconds(seconds):
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
         print("%d:%02d:%02d" % (h, m, s))
 
+
+    #Parameter: lstActions --> array with instance of StateAction
+    #Return: the average time of all instance in the array in seconds
+    #Return type: seconds
     @staticmethod
     def calculateAverageActions(tabActions):
-        t = 0
+        sumSec = int(0)
+        sumFrequency = int(0)
         for act in tabActions:
+            frequency = int(act.frequency)
+            sumFrequency = int(sumFrequency) + frequency
             d = act.date
-            t = t + d.hour * 3600
-            t = t + d.minute * 60
-            t = t + d.second
-        return t/len(tabActions)
+            sumSec = sumSec + (d.hour * 3600) * frequency
+            sumSec = sumSec + (d.minute * 60) * frequency
+            sumSec = sumSec + (d.second) * frequency
+        return sumSec/sumFrequency
 
 
+    #Parameter: lstStateAction --> an array with instance of stateAction
+    #Parameter: lstHours --> an array with all time Slots
+    #Actions: add the Action in the right place in the array lstHours
     @staticmethod
     def manageAction(lstActions,lstHours):
         for act in lstActions:
             d = act.date
-            if  d.minute >= 30:
+            if d.minute >= 30:
                 lstHours[act.date.hour+1].append(act)
             else:
                 lstHours[act.date.hour].append(act)
 
 
-    #Parameter: lstHours
+    #Parameter: lstHours --> list of all StateAction regroupped in different array
+    #Return: the lstStateAction with the biggest frequency
+    #Action: go through all StateAction array
     @staticmethod
     def showFreqPerHour(lstHours):
-        print("lstHours = " + str(len(lstHours)))
         ind = 0
         mod = len(lstHours[0])
         print("Hour: " + str(0) + " Frequency: " + str(len(lstHours[0])))
         for i in range(1,len(lstHours)):
-            f = len(lstHours[i])
+            f = Calculator.getFrequency(lstHours[i])
             if mod < f:
                 mod = f
                 ind = i
@@ -58,6 +74,21 @@ class Calculator(object):
         print("Mod = " + str(mod) + " à l'heure  " + str(ind))
         return lstHours[ind]
 
+
+    #Parameter: lstStateAction
+    #Return: frequency
+    #Action: go through the array and addition the frequency of each action.frequency
+    @staticmethod
+    def getFrequency(lstStateAction):
+        f = 0
+        for act in lstStateAction:
+            f = int(f) + int(act.frequency)
+        return f
+
+
+    #Parameter: lstHours --> an array for storing other table
+    #Action: add new table in lstHours
+    #Nb table added: 24
     @staticmethod
     def addHours(lstHours):
         for i in range(0,24):
