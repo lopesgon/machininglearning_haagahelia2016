@@ -40,5 +40,3 @@ if __name__ == "__main__":
         Calculator.timeslotsGenerator(item.dataOn)
         print("Data off")
         Calculator.timeslotsGenerator(item.dataOff)
-
-
