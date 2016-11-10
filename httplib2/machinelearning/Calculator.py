@@ -51,10 +51,15 @@ class Calculator(object):
     def manageAction(lstActions,lstHours):
         for act in lstActions:
             d = act.date
-            if d.minute >= 30:
-                lstHours[act.date.hour*2+1].append(act)
+
+            if d.minute >= 45:
+                lstHours[act.date.hour * 4 + 3].append(act)
+            elif d.minute >= 30:
+                lstHours[act.date.hour * 4 + 2].append(act)
+            elif d.minute >= 15:
+                lstHours[act.date.hour*4+1].append(act)
             else:
-                lstHours[act.date.hour*2].append(act)
+                lstHours[act.date.hour*4].append(act)
 
 
     #Parameter: lstHours --> list of all StateAction regroupped in different array
@@ -91,7 +96,7 @@ class Calculator(object):
     #Nb table added: 48
     @staticmethod
     def addHours(lstHours):
-        for i in range(0,48):
+        for i in range(0,96):
             hour = []
             lstHours.append(hour)
 
