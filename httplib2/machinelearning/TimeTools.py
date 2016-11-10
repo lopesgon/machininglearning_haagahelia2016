@@ -1,4 +1,4 @@
-
+import datetime
 class TimeTools(object):
 
     #Parameter: lstHours --> an array for storing other table
@@ -16,8 +16,10 @@ class TimeTools(object):
     # Parameter: seconds
     # Parameter Type: int
     # Action: convert seconds into format HH:MM:SS
+    # Return a date from the seconds
     @staticmethod
     def getTimeFromSeconds(seconds):
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
-        print("%d:%02d:%02d" % (h, m, s))
+        return datetime.datetime(2016,11,11,int(h),int(m),int(s))
+        #Time static - We have to modify it

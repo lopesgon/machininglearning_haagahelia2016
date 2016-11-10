@@ -13,7 +13,6 @@ class Calculator(object):
     @staticmethod
     def timeslotsGenerator(lstStateActions):
         if len(lstStateActions)>0:
-            print(len(lstStateActions))
             #Create the tree and place the StateActions in the right leaf
             lstHours = Calculator.manageAction(lstStateActions)
             #lstMemoryFrequency = Calculator.getFreqPerHour(lstHours)
@@ -53,7 +52,6 @@ class Calculator(object):
         mod = MathTools.getFrequency(lstHours[0])
         sumFrequency = int(0)
         tabMemoryFreq = []
-
         for i in range(1,len(lstHours)):
             f = MathTools.getFrequency(lstHours[i])
             memory = MemoryFrequency(i,f)
@@ -66,9 +64,9 @@ class Calculator(object):
 
         for y in range(ind+1,len(tabMemoryFreq)):
             mem = tabMemoryFreq[y]
-            print("MEMORY IND")
-            print(mem.indice)
-            print("Frequence")
-            print(mem.frequency)
-            nbSeconds = MathTools.calculateAverageActions(lstHours[mem.indice])
-            TimeTools.getTimeFromSeconds(nbSeconds)
+            #Two next lines are for an average
+            #nbSeconds = MathTools.calculateAverageActions(lstHours[mem.indice])
+            #TimeTools.getTimeFromSeconds(nbSeconds)
+            d = MathTools.calculateMedian(lstHours[mem.indice])
+            print(d)
+            print("----------")

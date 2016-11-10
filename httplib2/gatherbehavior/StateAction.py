@@ -26,7 +26,7 @@ class StateAction(object):
         return ComparableTime.CompareDateWithTime(self.date,date2)
 
     def __str__(self):
-        return self.date.strftime(DATE_FORMAT)
+        return self.date.strftime(DATE_FORMAT) + " " + " Frequency = " + str(self.frequency)
 
     def _repr_(self):
         return self.__str__()
