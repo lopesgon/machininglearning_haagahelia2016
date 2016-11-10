@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+from httplib2.tools.MemoryFrequency import MemoryFrequency
+from httplib2.tools.Mauchly import Mauchly
 class Calculator(object):
 
     """
@@ -14,9 +16,11 @@ class Calculator(object):
             Calculator.addHours(lstHours)
             #Place the Actions in the right place
             Calculator.manageAction(lstActions,lstHours)
-            tabActions = Calculator.showFreqPerHour(lstHours)
-            nbSeconds = Calculator.calculateAverageActions(tabActions)
-            Calculator.getTimeFromSeconds(nbSeconds)
+
+
+            Calculator.showFreqPerHour(lstHours)
+            #nbSeconds = Calculator.calculateAverageActions(tabActions)
+            #Calculator.getTimeFromSeconds(nbSeconds)
         else:
             print("Il n'y a pas de StateAction!")
 
@@ -72,17 +76,33 @@ class Calculator(object):
         ind = 0
         mod = Calculator.getFrequency(lstHours[0])
         sumFrequency = int(0)
-        print("Hour: " + str(0) + " Frequency: " + str(mod))
+        tabMemoryFreq = []
+
         for i in range(1,len(lstHours)):
             f = Calculator.getFrequency(lstHours[i])
-            if mod < f:
-                mod = f
-                ind = i
+            memory = MemoryFrequency(i,f)
+            ind = Mauchly.getPosition(tabMemoryFreq,memory)
+            tabMemoryFreq.insert(ind,memory)
+
             sumFrequency = sumFrequency + f
-            print("Hour: " + str(i) + " Frequency: " + str(f))
-        print("Sum of frequencies = " + str(sumFrequency))
-        print("Mod = " + str(mod) + " à l'heure  " + str(ind/4))
-        return lstHours[ind]
+
+        fCum = tabMemoryFreq[len(tabMemoryFreq)-1].frequency / sumFrequency
+        ind = len(tabMemoryFreq)-2
+        while ind >= 0 and fCum <= 0.5:
+            fCum = fCum + tabMemoryFreq[ind].frequency / sumFrequency
+            ind = ind -1
+
+
+        for y in range(ind+1,len(tabMemoryFreq)):
+            mem = tabMemoryFreq[y]
+            print("MEMORY IND")
+            print(mem.indice)
+            print("Frequence")
+            print(mem.frequency)
+            nbSeconds = Calculator.calculateAverageActions(lstHours[mem.indice])
+            Calculator.getTimeFromSeconds(nbSeconds)
+
+
 
 
     #Parameter: lstStateAction
