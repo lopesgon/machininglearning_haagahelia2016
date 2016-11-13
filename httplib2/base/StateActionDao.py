@@ -22,6 +22,7 @@ class StateActionDao(object):
     #Action: read the fileName and add the StateAction in the item
     @staticmethod
     def fillItemWithAction(item,fileName):
+        print("File = " + str(fileName))
         try:
             # read the file
             fichier = open(fileName, "r")

@@ -28,7 +28,9 @@ class MathTools(object):
         nbFrec = float((MathTools.getFrequency(tabActions)+1)/2)
         for i in range(0,len(tabActions)):
             action = tabActions[i]
-            if frec + action.frequency > nbFrec: # the next one will be bigger than nbFrec
+            if frec + action.frequency == nbFrec:
+                return tabActions[i].date
+            elif frec + action.frequency > nbFrec: # the next one will be bigger than nbFrec
                 seconds = 0
                 if frec + 1 > nbFrec: #we have to do the average between tabAction[i-1] and tabAction[i]
                     seconds = MathTools.getAverageBetweenTwoTimes(tabActions[i-1],tabActions[i])
@@ -87,6 +89,7 @@ class MathTools(object):
         fCum = tabMemoryFreq[len(tabMemoryFreq)-1].frequency / sumFrequency
         ind = len(tabMemoryFreq)-2
         while ind >= 0 and fCum <= 0.5:
+            print("fCuml = " + str(fCum))
             fCum = fCum + tabMemoryFreq[ind].frequency / sumFrequency
             ind = ind -1
-        return fCum
+        return ind

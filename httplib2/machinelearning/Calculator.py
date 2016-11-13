@@ -60,9 +60,9 @@ class Calculator(object):
             sumFrequency = sumFrequency + f
 
         #NOT USED
-        #fcum = MathTools.getCumulativeFrequency(tabMemoryFreq, sumFrequency)
+        indFromFrec = MathTools.getCumulativeFrequency(tabMemoryFreq, sumFrequency)
 
-        for y in range(ind+1,len(tabMemoryFreq)):
+        for y in range(indFromFrec+1,len(tabMemoryFreq)):
             mem = tabMemoryFreq[y]
             #Two next lines are for an average
             #nbSeconds = MathTools.calculateAverageActions(lstHours[mem.indice])
