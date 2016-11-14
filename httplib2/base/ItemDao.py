@@ -11,7 +11,6 @@ class ItemDao(object):
             item = ItemDao.__readLine(lineItem)
             if item not in lstItems:
                 lstItems.append(item)
-                print(item.name)
         fichier.close()
 
     @staticmethod

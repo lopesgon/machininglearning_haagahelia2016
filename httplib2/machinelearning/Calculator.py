@@ -12,7 +12,7 @@ class Calculator(object):
     @param lstStateActions
     """
     @staticmethod
-    def generateSuitableTimesOn(item, lstStateActions):
+    def generateSuitableTimes(item, lstStateActions):
         if len(lstStateActions)>0:
             #Create the tree and place the StateActions in the right leaf
             lstHours = Calculator.manageAction(lstStateActions)
@@ -21,9 +21,55 @@ class Calculator(object):
             firstRelevantInd = MathTools.getCumulativeFrequency(lstMemories, frequency)+1
             resDataOn = Calculator.getLstTimeResult(lstMemories[firstRelevantInd:],lstHours)
             item.setResDataOn(resDataOn)
-
+            lstHoursOff = Calculator.manageAction(item.dataOff)
+            lstMemoriesOff = Calculator.getLstMemories(item, lstHoursOff)
+            resDataOff = Calculator.generateSuiteableTimesOff(resDataOn,lstHoursOff,lstMemoriesOff)
+            item.setResDataOff(resDataOff)
         else:
-            print("No StateAction instance!")
+             print("No StateAction instance in " + item.name + "!")
+
+
+    @staticmethod
+    def generateSuiteableTimesOff(resDataOn,lstHoursOff,lstMemoriesOff):
+        size = len(resDataOn)-1
+        i = 0
+        lstResOff = []
+        while i < size:
+            act = Calculator.getSuitableTime(resDataOn[i],resDataOn[i+1],lstHoursOff,lstMemoriesOff)
+            if act is None:
+                del resDataOn[i+1]
+                size = size - 1
+            else:
+                lstResOff.append(act)
+                i = i + 1
+        act = Calculator.getSuitableTimeBetweenMaxAndMin(resDataOn[-1], resDataOn[0], lstHoursOff, lstMemoriesOff)
+        if act is not None:
+            lstResOff.append(act)
+        return lstResOff
+
+    @staticmethod
+    def getSuitableTime(lAction,rAction,lstHoursOff,lstMemoriesOff):
+        for mem in reversed(lstMemoriesOff):
+            lst = lstHoursOff[mem.indice]
+            d = MathTools.calculateMedian(lst)
+            if d is None:
+                return None
+            act = StateAction("false",d,1)
+            if lAction <= act and act < rAction:
+                return act
+        return None
+
+    @staticmethod
+    def getSuitableTimeBetweenMaxAndMin(lAction,rAction,lstHoursOff,lstMemoriesOff):
+        for mem in reversed(lstMemoriesOff):
+            lst = lstHoursOff[mem.indice]
+            d = MathTools.calculateMedian(lst)
+            if d is None:
+                return None
+            act = StateAction("false", d, 1)
+            if lAction <= act or act < rAction:
+                return act
+        return None
 
     """
     Go through the different StateAction instances and insert them inside a tree
@@ -70,7 +116,6 @@ class Calculator(object):
     @staticmethod
     def getLstTimeResult(tabMemoryFreq,lstHours):
         tabRes = []
-        print("size = " + str(len(tabMemoryFreq)))
         for mem in tabMemoryFreq:
             #Two next lines are for an average
             #nbSeconds = MathTools.calculateAverageActions(lstHours[mem.indice])

@@ -3,7 +3,9 @@ from httplib2.tools.ComparableTime import ComparableTime
 
 class StateAction(object):
     global DATE_FORMAT
+    global TIME_FORMAT
     DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
+    TIME_FORMAT = '%H:%M:%S'
 
     def __init__(self, type, date, frequency):
         self._type = type
@@ -17,6 +19,10 @@ class StateAction(object):
     @property
     def date(self):
         return self._date
+
+    @property
+    def time(self):
+        return self.date.strftime(TIME_FORMAT)
 
     @property
     def frequency(self):

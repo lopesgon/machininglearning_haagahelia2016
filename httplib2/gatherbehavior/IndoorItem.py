@@ -57,6 +57,9 @@ class IndoorItem(object):
     def setResDataOn(self,data):
         self._resDataOn = data
 
+    def setResDataOff(self,data):
+        self._resDataOff = data
+
     def _addResDataOn(self, data):
         pos = Mauchly.getPosition(self.resDataOn, data)
         self.resDataOn.insert(pos, data)

@@ -19,11 +19,16 @@ class MathTools(object):
             sumSec = sumSec + (d.second) * frequency
         return sumSec / sumFrequency
 
+
+
+    """
+    @:param tabActions ==> list of StateAction
+    @:return date
+    """
     @staticmethod
     def calculateMedian(tabActions):
         #temporaire
-        MathTools.showTabActions(tabActions)
-
+        #MathTools.showTabActions(tabActions)
         frec = int(0)
         nbFrec = float((MathTools.getFrequency(tabActions)+1)/2)
         for i in range(0,len(tabActions)):
@@ -34,21 +39,13 @@ class MathTools(object):
                 seconds = 0
                 if frec + 1 > nbFrec: #we have to do the average between tabAction[i-1] and tabAction[i]
                     seconds = MathTools.getAverageBetweenTwoTimes(tabActions[i-1],tabActions[i])
-                    print("Comparaison")
-                    print(tabActions[i-1])
-                    print(tabActions[i])
                     return TimeTools.getTimeFromSeconds(seconds)
                 else:#the two number making the border are in tabActions[i]
                     return tabActions[i].date
             else:
                 frec = frec + action.frequency
-
-    #Temporaire
-    @staticmethod
-    def showTabActions(tabActions):
-        for act in tabActions:
-            print(act)
-
+        #print("None is returned! ")
+        return None
 
     """
     @:param time1
@@ -101,7 +98,6 @@ class MathTools(object):
         fCum = tabMemoryFreq[len(tabMemoryFreq)-1].frequency / sumFrequency
         ind = len(tabMemoryFreq)-2
         while ind >= 0 and fCum <= 0.5:
-            print("fCuml = " + str(fCum))
             fCum = fCum + tabMemoryFreq[ind].frequency / sumFrequency
             ind = ind -1
         return ind

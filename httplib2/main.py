@@ -16,33 +16,28 @@ if __name__ == "__main__":
     ITEMS_FILE = "dataItems.csv"
     DATA_ACTIONS = "dataAction.csv"
     lstItems = []
-    StrTo.strUnderline("Items Loading")
 
-    #Charger les items
+    #Load Items in a list
     ItemDao.readItem(lstItems, ITEMS_FILE)
 
-    StrTo.strUnderline("Action Loading")
-    print("\n")
-
-    #Charger les actions dans les items
+    #Load StateAction in Items
     for item in lstItems:
         StateActionDao.readAllActions(item)
+    print("====================================")
+    print()
 
-    StrTo.strUnderline("List of Items with their Data")
+    #Generate the suitable times and add them in the Items
     for item in lstItems:
-        print(item)
+        Calculator.generateSuitableTimes(item, item.dataOn)
+    print("====================================")
+    print()
 
-    StrTo.strUnderline("Show Frequency per hour")
-
+    #Print the result of all suitable Times
     for item in lstItems:
-        print(item.name)
-        print("Data on")
-        Calculator.generateSuitableTimesOn(item, item.dataOn)
-        print("Data off")
-        #Calculator.timeslotsGenerator(item,item.dataOff)
-
-    for item in lstItems:
-        print("Ordered Results item: " + str(item.name))
-        print("size = " + str(len(item.resDataOn)))
-        for act in item.resDataOn:
-            print(act)
+        print()
+        StrTo.strUnderline(item.name)
+        resOn = item.resDataOn
+        resOff = item.resDataOff
+        for i in range(len(resOn)):
+            print("On  = " + str((resOn[i]).time))
+            print("Off = " + str((resOff[i]).time))

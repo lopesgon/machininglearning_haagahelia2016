@@ -14,7 +14,7 @@ class MemoryFrequency(object):
 
 
     def __str__(self):
-        return self.indice + " " + str(self.frequency)
+        return str(self.indice) + " " + str(self.frequency)
 
     def _repr_(self):
         return self.__str__()
