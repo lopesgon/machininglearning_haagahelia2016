@@ -1,6 +1,7 @@
 from httplib2.gatherbehavior.MemoryFrequency import MemoryFrequency
 from httplib2.machinelearning.MathTools import *
 from httplib2.machinelearning.TimeTools import *
+from httplib2.gatherbehavior.StateAction import StateAction
 from httplib2.tools.Mauchly import Mauchly
 
 
@@ -11,14 +12,16 @@ class Calculator(object):
     @param lstStateActions
     """
     @staticmethod
-    def timeslotsGenerator(lstStateActions):
+    def generateSuitableTimesOn(item, lstStateActions):
         if len(lstStateActions)>0:
             #Create the tree and place the StateActions in the right leaf
             lstHours = Calculator.manageAction(lstStateActions)
-            #lstMemoryFrequency = Calculator.getFreqPerHour(lstHours)
-            Calculator.showFreqPerHour(lstHours)
-            #nbSeconds = Calculator.calculateAverageActions(tabActions)
-            #Calculator.getTimeFromSeconds(nbSeconds)
+            lstMemories = Calculator.getLstMemories(item, lstHours)
+            frequency = MathTools.getFrequencyFromMemories(lstMemories)
+            firstRelevantInd = MathTools.getCumulativeFrequency(lstMemories, frequency)+1
+            resDataOn = Calculator.getLstTimeResult(lstMemories[firstRelevantInd:],lstHours)
+            item.setResDataOn(resDataOn)
+
         else:
             print("No StateAction instance!")
 
@@ -47,26 +50,33 @@ class Calculator(object):
     @param tree of all StateAction instances
     """
     @staticmethod
-    def showFreqPerHour(lstHours):
-        ind = 0
-        mod = MathTools.getFrequency(lstHours[0])
+    def getLstMemories(item, lstHours):
         sumFrequency = int(0)
         tabMemoryFreq = []
-        for i in range(1,len(lstHours)):
+        for i in range(0,len(lstHours)):
             f = MathTools.getFrequency(lstHours[i])
             memory = MemoryFrequency(i,f)
             ind = Mauchly.getPosition(tabMemoryFreq,memory)
             tabMemoryFreq.insert(ind,memory)
             sumFrequency = sumFrequency + f
+        return tabMemoryFreq
 
-        #NOT USED
-        indFromFrec = MathTools.getCumulativeFrequency(tabMemoryFreq, sumFrequency)
 
-        for y in range(indFromFrec+1,len(tabMemoryFreq)):
-            mem = tabMemoryFreq[y]
+    """
+    @:param tabMemoryFreq
+    @:param lstHours
+    @:return tabRes ==> array with suitable StateAction made of the suitable time
+    """
+    @staticmethod
+    def getLstTimeResult(tabMemoryFreq,lstHours):
+        tabRes = []
+        print("size = " + str(len(tabMemoryFreq)))
+        for mem in tabMemoryFreq:
             #Two next lines are for an average
             #nbSeconds = MathTools.calculateAverageActions(lstHours[mem.indice])
             #TimeTools.getTimeFromSeconds(nbSeconds)
             d = MathTools.calculateMedian(lstHours[mem.indice])
-            print(d)
-            print("----------")
+            action = StateAction("true",d,1)
+            ind = Mauchly.getPosition(tabRes,action)
+            tabRes.insert(ind,action)
+        return tabRes

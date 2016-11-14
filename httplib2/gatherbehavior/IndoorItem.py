@@ -19,6 +19,8 @@ class IndoorItem(object):
         self._fileDataOff = fileDataOff
         self._dataOn = dataOn
         self._dataOff = dataOff
+        self._resDataOn = []
+        self._resDataOff = []
 
     @property
     def no(self):
@@ -43,6 +45,25 @@ class IndoorItem(object):
     @property
     def dataOff(self):
         return self._dataOff
+
+    @property
+    def resDataOn(self):
+        return self._resDataOn
+
+    @property
+    def resDataOff(self):
+        return self._resDataOff
+
+    def setResDataOn(self,data):
+        self._resDataOn = data
+
+    def _addResDataOn(self, data):
+        pos = Mauchly.getPosition(self.resDataOn, data)
+        self.resDataOn.insert(pos, data)
+
+    def _addResDataOff(self, data):
+        pos = Mauchly.getPosition(self.resDataOff, data)
+        self.resDataOff.insert(pos, data)
 
     def _addDataOn(self, data):
         pos = Mauchly.getPosition(self.dataOn, data)

@@ -37,6 +37,12 @@ if __name__ == "__main__":
     for item in lstItems:
         print(item.name)
         print("Data on")
-        Calculator.timeslotsGenerator(item.dataOn)
+        Calculator.generateSuitableTimesOn(item, item.dataOn)
         print("Data off")
-        Calculator.timeslotsGenerator(item.dataOff)
+        #Calculator.timeslotsGenerator(item,item.dataOff)
+
+    for item in lstItems:
+        print("Ordered Results item: " + str(item.name))
+        print("size = " + str(len(item.resDataOn)))
+        for act in item.resDataOn:
+            print(act)

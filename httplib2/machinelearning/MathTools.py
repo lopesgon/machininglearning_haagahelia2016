@@ -79,6 +79,18 @@ class MathTools(object):
         return int(f)
 
     """
+        Go through the array and sum the frequency of each memory
+        @param lstMemories
+        @return frequency
+    """
+    @staticmethod
+    def getFrequencyFromMemories(lstMemories):
+        f = int(0)
+        for mem in lstMemories:
+            f = f + mem.frequency
+        return int(f)
+
+    """
     This method return the cumulative frequency from a list of instances of MemoryFrequency and the sum of the frequency received
     in parameter.
     @param tabMemoryFreq, sumFrequency
