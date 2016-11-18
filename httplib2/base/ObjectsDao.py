@@ -1,3 +1,6 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
 DATA_FILES = "files.csv"
 
 class ObjectsDao(object): #new

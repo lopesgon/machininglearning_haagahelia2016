@@ -1,3 +1,6 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
 class ComparableTime(object):
     """
     Parameter: date1

@@ -1,9 +1,11 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
 from httplib2.gatherbehavior.MemoryFrequency import MemoryFrequency
 from httplib2.machinelearning.MathTools import *
 from httplib2.machinelearning.TimeTools import *
 from httplib2.gatherbehavior.StateAction import StateAction
 from httplib2.tools.Mauchly import Mauchly
-
 
 class Calculator(object):
 

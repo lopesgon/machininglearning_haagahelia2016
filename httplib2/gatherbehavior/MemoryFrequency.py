@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 
 class MemoryFrequency(object):
     def __init__(self, indice, frequency):

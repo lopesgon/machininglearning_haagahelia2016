@@ -1,4 +1,6 @@
+#!/usr/local/bin/python
 # -*- coding: utf-8 -*-
+
 class Person(object):
     def __init__(self, nom, prenom, age):
         self._nom = nom

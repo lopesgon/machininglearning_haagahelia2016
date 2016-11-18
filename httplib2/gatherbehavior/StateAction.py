@@ -1,3 +1,6 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
 from httplib2.tools.ComparableTime import ComparableTime
 

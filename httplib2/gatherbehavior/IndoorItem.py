@@ -1,3 +1,6 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
 """
 class Item:
     An Item could be any furniture in an indoor environment. It is composed of:

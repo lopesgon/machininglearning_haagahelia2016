@@ -1,3 +1,6 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
 from httplib2.machinelearning.TimeTools import TimeTools
 class MathTools(object):
 

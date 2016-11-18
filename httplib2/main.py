@@ -1,5 +1,5 @@
-
-# print("The software is on. Please wait a minute, the computer is analyzing all data stored.")
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 
 #Software Engineering Project
 #Machining Learning - Gathering behaviour in an indoor environment
