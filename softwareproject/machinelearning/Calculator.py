@@ -1,11 +1,11 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from httplib2.gatherbehavior.MemoryFrequency import MemoryFrequency
-from httplib2.machinelearning.MathTools import *
-from httplib2.machinelearning.TimeTools import *
-from httplib2.gatherbehavior.StateAction import StateAction
-from httplib2.tools.Mauchly import Mauchly
+from softwareproject.gatherbehavior.MemoryFrequency import MemoryFrequency
+from softwareproject.machinelearning.MathTools import *
+from softwareproject.machinelearning.TimeTools import *
+from softwareproject.gatherbehavior.StateAction import StateAction
+from softwareproject.tools.Mauchly import Mauchly
 
 class Calculator(object):
 
@@ -123,7 +123,8 @@ class Calculator(object):
             #nbSeconds = MathTools.calculateAverageActions(lstHours[mem.indice])
             #TimeTools.getTimeFromSeconds(nbSeconds)
             d = MathTools.calculateMedian(lstHours[mem.indice])
-            action = StateAction("true",d,1)
-            ind = Mauchly.getPosition(tabRes,action)
-            tabRes.insert(ind,action)
+            if d is not None:
+                action = StateAction("true",d,1)
+                ind = Mauchly.getPosition(tabRes,action)
+                tabRes.insert(ind,action)
         return tabRes

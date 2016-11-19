@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from httplib2.gatherbehavior.IndoorItem import *
+from softwareproject.gatherbehavior.IndoorItem import *
 
 class ItemDao(object):
 

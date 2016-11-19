@@ -7,10 +7,10 @@
 #2016-2017, semester 5
 from datetime import datetime
 
-from httplib2.tools.StrTo import StrTo
-from httplib2.base.StateActionDao import StateActionDao
-from httplib2.base.ItemDao import ItemDao
-from httplib2.machinelearning.Calculator import Calculator
+from softwareproject.tools.StrTo import StrTo
+from softwareproject.base.StateActionDao import StateActionDao
+from softwareproject.base.ItemDao import ItemDao
+from softwareproject.machinelearning.Calculator import Calculator
 
 if __name__ == "__main__":
     ITEMS_FILE = "dataItems.csv"

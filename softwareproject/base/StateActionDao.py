@@ -1,9 +1,9 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from httplib2.gatherbehavior.IndoorItem import *
-from httplib2.gatherbehavior.StateAction import *
-from httplib2.tools.StrTo import StrTo
+from softwareproject.gatherbehavior.IndoorItem import *
+from softwareproject.gatherbehavior.StateAction import *
+from softwareproject.tools.StrTo import StrTo
 from datetime import datetime
 
 #DATA_ACTIONS = "dataAction.csv"
@@ -41,7 +41,7 @@ class StateActionDao(object):
                 action = StateActionDao._readActionLine(actionLine)
                 # Affect the action to the object
                 item._addAction(action)
-        except FileNotFoundError:
+        except Exception:
             print("The file " + fileName + " does not exist!")
 
 

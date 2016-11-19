@@ -6,13 +6,11 @@ class Mauchly(object):
     @staticmethod
     def getPosition(lst, c):
         pos = 0
-        n = len(lst) - 1
-        if len(lst) == 0:
-            return 0
-        if c < lst[0]:
-            return 0
+        n = len(lst)-1
+        if n <= 0 or c < lst[0]:
+            pos = 0
         elif c >= lst[n]:
-            pos = n + 1
+            pos = n+1
         else:
             g = 0
             d = n

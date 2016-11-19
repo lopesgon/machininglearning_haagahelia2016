@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from httplib2.machinelearning.TimeTools import TimeTools
+from softwareproject.machinelearning.TimeTools import TimeTools
 class MathTools(object):
 
     """
@@ -47,7 +47,6 @@ class MathTools(object):
                     return tabActions[i].date
             else:
                 frec = frec + action.frequency
-        #print("None is returned! ")
         return None
 
     """
