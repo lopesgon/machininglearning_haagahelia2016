@@ -95,14 +95,14 @@ class IndoorItem(object):
 
     def __str__(self):
         st = self.no + " " + self.name
-        st += "\n   Time ON"
-        for action in self.dataOn:
-            st += " - "
-            st += str(action)
-        st += "\n   Time Off"
-        for action in self.dataOff:
-            st += " - "
-            st += str(action)
+        # st += "\n   Time ON"
+        # for action in self.dataOn:
+        #     st += " - "
+        #     st += str(action)
+        # st += "\n   Time Off"
+        # for action in self.dataOff:
+        #     st += " - "
+        #     st += str(action)
         return st
 
     def _repr_(self):
