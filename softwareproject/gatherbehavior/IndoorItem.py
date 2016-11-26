@@ -11,7 +11,8 @@ class Item:
         DataTurnOff: an array of StateAction recording each interaction with the current instance for 7 days
 """
 
-from softwareproject.tools.Mauchly import Mauchly
+from softwareproject.tools import Mauchly
+from softwareproject.gatherbehavior.ThreadTime import *
 
 class IndoorItem(object):
 
@@ -24,6 +25,7 @@ class IndoorItem(object):
         self._dataOff = dataOff
         self._resDataOn = []
         self._resDataOff = []
+        self.t = None
 
     @property
     def no(self):
@@ -107,3 +109,25 @@ class IndoorItem(object):
 
     def _repr_(self):
         return self.__str__()
+
+    def start(self):
+        print(self)
+        print(" /!\ STARTING /!\ ")
+        self._listening(True)
+
+    def stop(self):
+        print(self)
+        print(" /!\ STOP /!\ ")
+        self._listening(False)
+
+    def _listening(self, etat):
+        if etat:
+            if self.t is not None:
+                self.t.stop()
+                t = None
+            t = ThreadTime()
+            t.start()
+        else:
+            if self.t is not None:
+                self.t.stop()
+                self.t = None

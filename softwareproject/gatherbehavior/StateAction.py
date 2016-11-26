@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from softwareproject.tools.ComparableTime import ComparableTime
+from softwareproject.tools import ComparableTime
 
 class StateAction(object):
     global DATE_FORMAT
