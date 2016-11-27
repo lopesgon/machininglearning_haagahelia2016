@@ -1,7 +1,8 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from softwareproject.machinelearning.TimeTools import TimeTools
+from softwareproject.tools import TimeTools
+
 class MathTools(object):
 
     """

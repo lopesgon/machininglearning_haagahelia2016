@@ -7,9 +7,11 @@
 #2016-2017, semester 5
 
 from softwareproject.gatherbehavior.GatherControler import *
+import os
 
 if __name__ == "__main__":
     print("Software Engineering Project")
     print("SOFTWARE STARTS")
     run()
     print("SOFTWARE TURN OFF")
+    os._exit(0)

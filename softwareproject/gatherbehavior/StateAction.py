@@ -1,8 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-from softwareproject.tools import ComparableTime
+from softwareproject.tools.TimeTools import CompareDateWithTime
 
 class StateAction(object):
     global DATE_FORMAT
@@ -32,7 +31,7 @@ class StateAction(object):
         return self._frequency
 
     def comparaisonDateTime(self,date2):
-        return ComparableTime.CompareDateWithTime(self.date,date2)
+        return CompareDateWithTime(self.date,date2)
 
     def __str__(self):
         return self.date.strftime(DATE_FORMAT) + " " + " Frequency = " + str(self.frequency)
@@ -50,7 +49,7 @@ class StateAction(object):
 
     def __lt__(self, other):
         result = self.comparaisonDateTime(other.date)
-        result = ComparableTime.CompareDateWithTime(self.date,other.date)
+        result = CompareDateWithTime(self.date,other.date)
         return result == -1
 
     def __gt__(self, other):

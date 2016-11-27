@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 
 from softwareproject.gatherbehavior.MemoryFrequency import MemoryFrequency
-from softwareproject.machinelearning.MathTools import *
-from softwareproject.machinelearning.TimeTools import *
 from softwareproject.gatherbehavior.StateAction import StateAction
+from softwareproject.machinelearning.MathTools import *
 from softwareproject.tools import Mauchly
-
+from softwareproject.tools import TimeTools
 
 """
 Generate and return a list of time slots

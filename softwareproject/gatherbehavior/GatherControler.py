@@ -20,7 +20,6 @@ def _listeningUser(lstItems, etat):
             _updateTimeSlots(lstItems)
         else:
             print("ERROR: input '" + etat + "' incorrect! Please write one of the specific words asked for.")
-        #_listeningUser(lstItems, input("Write 'start/stop/update/exit' to interact with the process: "))
         etat = input("Write 'start/stop/update/exit' to interact with the process: ")
     stopAllProcesses(lstItems)
 

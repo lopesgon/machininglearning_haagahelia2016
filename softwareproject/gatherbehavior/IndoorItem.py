@@ -125,7 +125,7 @@ class IndoorItem(object):
             if self.t is not None:
                 self.t.stop()
                 t = None
-            t = ThreadTime()
+            t = ThreadTime(self)#, self._resDataOn, self._resDataOff)
             t.start()
         else:
             if self.t is not None:
