@@ -17,8 +17,13 @@ class ThreadTime(threading.Thread):
 
     def _running(self):
         while self.etat:
+            print(str(self._item) + " falling asleep till turning ON time. Next:" + self._item.resDataOn[self._indNext].time)
             self._sleeping(self._item.resDataOn, self._indNext)
+            print("System Time when waking up: " + datetime.datetime.today())
+            print(str(self._item) + " turn ON! Falling asleep till turning OFF time. Next:" + self._item.resDataOff[self._indNext].time)
             self._sleeping(self._item.resDataOff, self._indNext)
+            print("System Time when waking up: " + datetime.datetime.today())
+            print(str(self._item) + " turn OFF!")
             self._indNext += 1
             if self._indNext > len(self._item.resDataOff)-1:
                 self._indNext = 0
