@@ -1,0 +1,4 @@
+1 Light falling asleep till turning ON time:01:12:00
+3 Cooker falling asleep till turning ON time:22:22:03
+2 Door falling asleep till turning ON time:22:22:37
+4 CoffeeMachine falling asleep till turning ON time:22:25:01

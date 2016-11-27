@@ -3,6 +3,7 @@ import datetime
 import time
 from softwareproject.tools import TimeTools
 from softwareproject.gatherbehavior.IndoorItem import *
+from softwareproject.base.TestingDao import writingLine
 
 class ThreadTime(threading.Thread):
 
@@ -17,13 +18,13 @@ class ThreadTime(threading.Thread):
 
     def _running(self):
         while self.etat:
-            print(str(self._item) + " falling asleep till turning ON time. Next:" + self._item.resDataOn[self._indNext].time)
+            writingLine(str(self._item) + " falling asleep till turning ON time:" + self._item.resDataOn[self._indNext].time + "\n")
             self._sleeping(self._item.resDataOn, self._indNext)
-            print("System Time when waking up: " + datetime.datetime.today())
-            print(str(self._item) + " turn ON! Falling asleep till turning OFF time. Next:" + self._item.resDataOff[self._indNext].time)
+            writingLine("TURN ON! Waking up now! System Time: " + datetime.datetime.today() + " -- ")
+            writingLine(str(self._item) + "Falling asleep till turning OFF time:" + self._item.resDataOff[self._indNext].time + "\n")
             self._sleeping(self._item.resDataOff, self._indNext)
-            print("System Time when waking up: " + datetime.datetime.today())
-            print(str(self._item) + " turn OFF!")
+            writingLine("System Time when waking up: " + datetime.datetime.today() + "\n")
+            writingLine(str(self._item) + " turn OFF!" + "\n")
             self._indNext += 1
             if self._indNext > len(self._item.resDataOff)-1:
                 self._indNext = 0
