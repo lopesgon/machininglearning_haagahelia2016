@@ -2,12 +2,22 @@ from softwareproject.base import ItemDao
 from softwareproject.base import StateActionDao
 from softwareproject.machinelearning import Calculator
 from softwareproject.tools import StrTo
+import time
 
 def run():
     lstItems = []
     lstItems = _init(lstItems)
-    _listeningUser(lstItems, "start")
+    _runningAutomation(lstItems)
+    #_listeningUser(lstItems, "start")
 
+def _runningAutomation(lstItems):
+    for item in lstItems:
+        item.start()
+    print("LAUNCHING PHASE: PASSED")
+    while True:
+        time.sleep(3600*24)
+
+#This method was used to gather the actions that the user wanted to do NOT REQUIRED FOR FINAL VERSION
 def _listeningUser(lstItems, etat):
     while etat != "exit":
         if etat == "start":
@@ -23,10 +33,12 @@ def _listeningUser(lstItems, etat):
         etat = input("Write 'start/stop/update/exit' to interact with the process: ")
     stopAllProcesses(lstItems)
 
+#NOT REQUIRED FOR FINAL VERSION
 def stopAllProcesses(lstItems):
     for item in lstItems:
         item.stop()
 
+#NOT REQUIRED FOR FINAL VERSION
 def _updateTimeSlots(lstItems):
     #Generate the suitable times and add them in the Items
     print("GENERATION OF SUITABLE TIMESLOTS PER ITEM")

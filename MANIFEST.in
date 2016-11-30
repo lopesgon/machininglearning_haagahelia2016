@@ -1,3 +1,0 @@
-##@copyright: https://wiki.python.org/moin/Distutils/Tutorial
-include runner README
-recursive-include package/things *
