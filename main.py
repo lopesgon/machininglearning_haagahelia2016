@@ -7,11 +7,12 @@
 #2016-2017, semester 5
 
 from softwareproject.gatherbehavior.GatherControler import *
+from softwareproject.base.TestingDao import writingLine
 import os
+import datetime
 
 if __name__ == "__main__":
-    print("Software Engineering Project")
-    print("SOFTWARE STARTS")
+    writingLine("Software Engineering Project - SOFTWARE TURNING ON TIME : " + str(datetime.datetime.today()) + "\n\n")
     run()
-    print("SOFTWARE TURN OFF")
+    writingLine("SOFTWARE TURNING OFF TIME: " + str(datetime.datetime.today()) + "\n\n")
     os._exit(0)
