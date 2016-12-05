@@ -3,49 +3,56 @@
 
 from softwareproject.gatherbehavior.MemoryFrequency import MemoryFrequency
 from softwareproject.gatherbehavior.StateAction import StateAction
-from softwareproject.machinelearning.MathTools import *
+from softwareproject.machinelearning import MathTools
 from softwareproject.tools import Mauchly
 from softwareproject.tools import TimeTools
 
 """
-Generate and return a list of time slots
-@param lstStateActions
+This module is providing the algorithm which generates suitable Time slots for an IndoorItem instance
+regarding to the ON/OFF StateAction events of it.
 """
+
 def generateSuitableTimes(item, lstStateActions):
+    """
+    Generate and return a list of ON time slots
+    :param item: instance of an IndoorItem
+    :param lstStateActions:
+    :return:
+    """
     if len(lstStateActions)>0:
         #Create the tree and place the StateActions in the right leaf
-        lstHours = manageAction(lstStateActions)
-        lstMemories = getLstMemories(item, lstHours)
+        lstHours = _manageAction(lstStateActions)
+        lstMemories = _getLstMemories(item, lstHours)
         frequency = MathTools.getFrequencyFromMemories(lstMemories)
         firstRelevantInd = MathTools.getCumulativeFrequency(lstMemories, frequency)+1
-        resDataOn = getLstTimeResult(lstMemories[firstRelevantInd:],lstHours)
+        resDataOn = _getLstTimeResult(lstMemories[firstRelevantInd:],lstHours)
         item.setResDataOn(resDataOn)
-        lstHoursOff = manageAction(item.dataOff)
-        lstMemoriesOff = getLstMemories(item, lstHoursOff)
-        resDataOff = generateSuiteableTimesOff(resDataOn,lstHoursOff,lstMemoriesOff)
+        lstHoursOff = _manageAction(item.dataOff)
+        lstMemoriesOff = _getLstMemories(item, lstHoursOff)
+        resDataOff = _generateSuiteableTimesOff(resDataOn,lstHoursOff,lstMemoriesOff)
         item.setResDataOff(resDataOff)
     else:
          print("No StateAction instance in " + item.name + "!")
 
 
-def generateSuiteableTimesOff(resDataOn,lstHoursOff,lstMemoriesOff):
+def _generateSuiteableTimesOff(resDataOn,lstHoursOff,lstMemoriesOff):
     size = len(resDataOn)-1
     i = 0
     lstResOff = []
     while i < size:
-        act = getSuitableTime(resDataOn[i],resDataOn[i+1],lstHoursOff,lstMemoriesOff)
+        act = _getSuitableTime(resDataOn[i],resDataOn[i+1],lstHoursOff,lstMemoriesOff)
         if act is None:
             del resDataOn[i+1]
             size = size - 1
         else:
             lstResOff.append(act)
             i = i + 1
-    act = getSuitableTimeBetweenMaxAndMin(resDataOn[-1], resDataOn[0], lstHoursOff, lstMemoriesOff)
+    act = _getSuitableTimeBetweenMaxAndMin(resDataOn[-1], resDataOn[0], lstHoursOff, lstMemoriesOff)
     if act is not None:
         lstResOff.append(act)
     return lstResOff
 
-def getSuitableTime(lAction,rAction,lstHoursOff,lstMemoriesOff):
+def _getSuitableTime(lAction,rAction,lstHoursOff,lstMemoriesOff):
     for mem in reversed(lstMemoriesOff):
         lst = lstHoursOff[mem.indice]
         d = MathTools.calculateMedian(lst)
@@ -56,7 +63,7 @@ def getSuitableTime(lAction,rAction,lstHoursOff,lstMemoriesOff):
             return act
     return None
 
-def getSuitableTimeBetweenMaxAndMin(lAction,rAction,lstHoursOff,lstMemoriesOff):
+def _getSuitableTimeBetweenMaxAndMin(lAction,rAction,lstHoursOff,lstMemoriesOff):
     for mem in reversed(lstMemoriesOff):
         lst = lstHoursOff[mem.indice]
         d = MathTools.calculateMedian(lst)
@@ -67,12 +74,12 @@ def getSuitableTimeBetweenMaxAndMin(lAction,rAction,lstHoursOff,lstMemoriesOff):
             return act
     return None
 
-"""
-Go through the different StateAction instances and insert them inside a tree
-@param lstStateActions
-@return array
-"""
-def manageAction(lstStateActions):
+def _manageAction(lstStateActions):
+    """
+    Go through the different StateAction instances and insert them inside a tree
+    :param lstStateActions: array of StateAction
+    :return: array
+    """
     lstHours = TimeTools.getHours()
     for act in lstStateActions:
         d = act.date
@@ -86,11 +93,13 @@ def manageAction(lstStateActions):
             lstHours[act.date.hour*4].append(act)
     return lstHours
 
-"""
-Shows the different time slots generated for the tree received in parameter
-@param tree of all StateAction instances
-"""
-def getLstMemories(item, lstHours):
+def _getLstMemories(item, lstHours):
+    """
+    Shows the different time slots generated for the tree received in parameter
+    :param item: instance of IndoorItem
+    :param lstHours: tree of all StateAction instances
+    :return:
+    """
     sumFrequency = int(0)
     tabMemoryFreq = []
     for i in range(0,len(lstHours)):
@@ -102,12 +111,13 @@ def getLstMemories(item, lstHours):
     return tabMemoryFreq
 
 
-"""
-@:param tabMemoryFreq
-@:param lstHours
-@:return tabRes ==> array with suitable StateAction made of the suitable time
-"""
-def getLstTimeResult(tabMemoryFreq,lstHours):
+def _getLstTimeResult(tabMemoryFreq,lstHours):
+    """
+
+    :param tabMemoryFreq: array
+    :param lstHours: array
+    :return: array with suitable StateAction made of the suitable time
+    """
     tabRes = []
     for mem in tabMemoryFreq:
         #Two next lines are for an average

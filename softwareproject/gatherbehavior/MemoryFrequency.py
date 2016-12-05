@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 class MemoryFrequency(object):
+
     def __init__(self, indice, frequency):
         self._indice = indice
         self._frequency = frequency
@@ -13,7 +14,6 @@ class MemoryFrequency(object):
     @property
     def frequency(self):
         return self._frequency
-
 
     def __str__(self):
         return str(self.indice) + " " + str(self.frequency)

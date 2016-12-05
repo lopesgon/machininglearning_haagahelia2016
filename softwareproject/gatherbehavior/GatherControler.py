@@ -4,21 +4,37 @@ from softwareproject.machinelearning import Calculator
 from softwareproject.tools import StrTo
 import time
 
+"""
+This module is a controler which is in charge of managing all the items created and execute updates, gathering behavior, etc..
+"""
+
 def run():
+    """
+    Launch the software by creating instances and running the automation.
+    """
     lstItems = []
     lstItems = _init(lstItems)
     _runningAutomation(lstItems)
-    #_listeningUser(lstItems, "start")
 
 def _runningAutomation(lstItems):
+    """
+    Starts the software by executing the method start() of each IndoorItem instance.
+    :param lstItems: array of IndoorItem instances
+    """
     for item in lstItems:
         item.start()
     print("LAUNCHING PHASE: PASSED")
     while True:
-        time.sleep(3600*24)
+        time.sleep(3600*24*7)
 
-#This method was used to gather the actions that the user wanted to do NOT REQUIRED FOR FINAL VERSION
-def _listeningUser(lstItems, etat):
+def _listeningUser(lstItems):
+    """
+    @deprecated NOT USED IN FINAL VERSION
+    Starts the software by executing the method start() of each IndoorItem instance.
+    Opens an input dialog in terminal to allow the user to interact with the software.
+    :param lstItems: array of IndoorItem instances
+    """
+    etat = True
     while etat != "exit":
         if etat == "start":
             for item in lstItems:
@@ -33,25 +49,37 @@ def _listeningUser(lstItems, etat):
         etat = input("Write 'start/stop/update/exit' to interact with the process: ")
     stopAllProcesses(lstItems)
 
-#NOT REQUIRED FOR FINAL VERSION
 def stopAllProcesses(lstItems):
+    """
+    @deprecated NOT USED IN FINAL VERSION
+    Stops all the automation process of each IndoorItem instance.
+    :param lstItems: array of IndoorItem instances
+    """
     for item in lstItems:
         item.stop()
 
-#NOT REQUIRED FOR FINAL VERSION
 def _updateTimeSlots(lstItems):
-    #Generate the suitable times and add them in the Items
+    """
+    @deprecated NOT USED IN FINAL VERSION
+    Generates the suitable times and add them in the Items.
+    :param lstItems: array of IndoorItem instances
+    """
     print("GENERATION OF SUITABLE TIMESLOTS PER ITEM")
     for item in lstItems:
         Calculator.generateSuitableTimes(item, item.dataOn)
 
 def _init(lstItems):
+    """
+    Initialisation of the software by creating instance of IndoorItem and generating the first TimeSlots of them.
+    :param lstItems: array of IndoorItem instances
+    :return: an array with the IndoorItem instances with their timeslots generated
+    """
     ITEMS_FILE = "dataItems.csv"
     DATA_ACTIONS = "dataAction.csv"
 
     #Load Items in a list
     print("LOADING INDOOR ITEMS...")
-    ItemDao.readItem(lstItems, ITEMS_FILE)
+    lstItems = ItemDao.readItem(ITEMS_FILE)
 
     #Load StateAction in Items
     print("LOADING ACTIONS OF THE ITEMS")

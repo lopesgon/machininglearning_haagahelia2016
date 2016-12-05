@@ -3,6 +3,10 @@
 
 from softwareproject.tools.TimeTools import CompareDateWithTime
 
+"""
+StateAction class contains all the data regarding to an action with an IndoorItem.
+"""
+
 class StateAction(object):
     global DATE_FORMAT
     global TIME_FORMAT
@@ -10,27 +14,50 @@ class StateAction(object):
     TIME_FORMAT = '%H:%M:%S'
 
     def __init__(self, type, date, frequency):
+        """
+        Constructor of StateAction class
+        :param type: boolean
+        :param date: datetime
+        :param frequency: int
+        """
         self._type = type
         self._date = date
         self._frequency = int(frequency)
 
     @property
     def typeAction(self):
+        """
+        :return: boolean
+        """
         return self._type
 
     @property
     def date(self):
+        """
+        :return: datetime
+        """
         return self._date
 
     @property
     def time(self):
+        """
+        :return: time as a String
+        """
         return self.date.strftime(TIME_FORMAT)
 
     @property
     def frequency(self):
+        """
+        :return: frequency as a int
+        """
         return self._frequency
 
     def comparaisonDateTime(self,date2):
+        """
+        Compares the current datetime instance value with a new one received in parameter.
+        :param date2: datetime
+        :return: int
+        """
         return CompareDateWithTime(self.date,date2)
 
     def __str__(self):
