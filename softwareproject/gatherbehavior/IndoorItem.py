@@ -4,17 +4,17 @@
 from softwareproject.tools import Mauchly
 from softwareproject.gatherbehavior.ThreadTime import *
 
-class IndoorItem(object):
+"""
+class Item
+    An Item could be any furniture in an indoor environment. It is composed of:
+        No: that helps the system to distinguish each one
+        Name: in order to know which kind of object it is
+        TimeSlotsStateAction: an array of StateAction defining the time slots of the object
+        DataTurnOn: an array of StateAction recording each interaction with the current instance for 7 days
+        DataTurnOff: an array of StateAction recording each interaction with the current instance for 7 days
+"""
 
-    """
-    class Item
-        An Item could be any furniture in an indoor environment. It is composed of:
-            No: that helps the system to distinguish each one
-            Name: in order to know which kind of object it is
-            TimeSlotsStateAction: an array of StateAction defining the time slots of the object
-            DataTurnOn: an array of StateAction recording each interaction with the current instance for 7 days
-            DataTurnOff: an array of StateAction recording each interaction with the current instance for 7 days
-    """
+class IndoorItem(object):
 
     def __init__(self, no, name,fileDataOn,fileDataOff, dataOn, dataOff):
         """

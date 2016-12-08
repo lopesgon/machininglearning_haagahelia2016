@@ -1,9 +1,9 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from softwareproject.gatherbehavior.MemoryFrequency import MemoryFrequency
 from softwareproject.gatherbehavior.StateAction import StateAction
 from softwareproject.machinelearning import MathTools
+from softwareproject.machinelearning.MemoryFrequency import MemoryFrequency
 from softwareproject.tools import Mauchly
 from softwareproject.tools import TimeTools
 
@@ -12,16 +12,18 @@ This module is providing the algorithm which generates suitable Time slots for a
 regarding to the ON/OFF StateAction events of it.
 """
 
-def generateSuitableTimes(item, lstStateActions):
+def generateSuitableTimes(item): #, lstStateActions):
     """
     Generate and return a list of ON time slots
     :param item: instance of an IndoorItem
     :param lstStateActions:
     :return:
     """
-    if len(lstStateActions)>0:
+    dataOn = item.dataOn
+    if len(dataOn)>0:
         #Create the tree and place the StateActions in the right leaf
-        lstHours = _manageAction(lstStateActions)
+        #lstHours = _manageAction(lstStateActions) #Old version is in comment.
+        lstHours = _manageAction(dataOn)
         lstMemories = _getLstMemories(item, lstHours)
         frequency = MathTools.getFrequencyFromMemories(lstMemories)
         firstRelevantInd = MathTools.getCumulativeFrequency(lstMemories, frequency)+1
