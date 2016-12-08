@@ -18,7 +18,7 @@ class ThreadTime(threading.Thread):
         :param item: IndoorItem instance
         """
         threading.Thread.__init__(self)
-        self.etat = True
+        self._etat = True
         self._item = item
         self._indNext = self._indNextEvent(self._item.resDataOn)
 
@@ -32,13 +32,13 @@ class ThreadTime(threading.Thread):
         """
         Run a continuous process which will set off the ON/OFF events of the IndoorItem known.
         """
-        while self.etat:
-            #writingLine(str(self._item) + " falling asleep till turning ON time:" + self._item.resDataOn[self._indNext].time + "\n")
+        while self._etat:
             self._sleeping(self._item.resDataOn, self._indNext)
-            writingLine(str(self._item) + " TURN ON! System Time: " + str(datetime.datetime.today()) + "\n")
-            #writingLine(str(self._item) + " falling asleep till turning OFF time:" + self._item.resDataOff[self._indNext].time + "\n")
+            writingLine("\n" + str(self._item) + " TURN ON! System Time: " + str(datetime.datetime.today()) + "\n")
             self._sleeping(self._item.resDataOff, self._indNext)
-            writingLine(str(self._item) + " TURN OFF! System Time: " + str(datetime.datetime.today()) + "\n")
+            if(not self._etat):
+                break
+            writingLine("\n" + str(self._item) + " TURN OFF! System Time: " + str(datetime.datetime.today()) + "\n")
             self._indNext += 1
             if self._indNext > len(self._item.resDataOff)-1:
                 self._indNext = 0
@@ -47,7 +47,14 @@ class ThreadTime(threading.Thread):
         """
         Stops the process by changing the value of the loop condition to False
         """
-        etat =  False
+        self._etat =  False
+
+    def kill(self):
+        """
+        Kills the Thread by destroying the relation with its owner instance (IndoorItem instance).
+        """
+        self.stop()
+        self._item = None
 
     def _indNextEvent(self, dates):
         """

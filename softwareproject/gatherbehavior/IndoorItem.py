@@ -34,7 +34,7 @@ class IndoorItem(object):
         self._dataOff = dataOff
         self._resDataOn = []
         self._resDataOff = []
-        self.t = None
+        self._t = None
 
     @property
     def no(self):
@@ -146,14 +146,6 @@ class IndoorItem(object):
 
     def __str__(self):
         st = self.no + " " + self.name
-        # st += "\n   Time ON"
-        # for action in self.dataOn:
-        #     st += " - "
-        #     st += str(action)
-        # st += "\n   Time Off"
-        # for action in self.dataOff:
-        #     st += " - "
-        #     st += str(action)
         return st
 
     def _repr_(self):
@@ -182,12 +174,12 @@ class IndoorItem(object):
         :param etat: boolean
         """
         if etat:
-            if self.t is not None:
-                self.t.stop()
-                t = None
-            t = ThreadTime(self)
-            t.start()
+            if self._t is not None:
+                self._t.kill()
+                self._t = None
+            self._t = ThreadTime(self)
+            self._t.start()
         else:
-            if self.t is not None:
-                self.t.stop()
-                self.t = None
+            if self._t is not None:
+                self._t.kill()
+                self._t = None

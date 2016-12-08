@@ -9,20 +9,21 @@ import datetime
 """
 This module is a controler which is in charge of managing all the items created and execute updates, gathering behavior, etc..
 """
-
+fileItems = "dataItems.csv"
 def run():
     """
     Launch the software by creating instances and running the automation.
     """
+    writingLine("\n\nSoftware Engineering Project - SOFTWARE TURNING ON TIME : " + str(datetime.datetime.today()))
     _runningAutomation()
+    writingLine("\nSOFTWARE TURNING OFF TIME: " + str(datetime.datetime.today()))
 
 def _runningAutomation():
     """
     Starts the software by executing the method start() of each IndoorItem instance.
     :param lstItems: array of IndoorItem instances
     """
-    lstItems = []
-    lstItems = _init(lstItems)
+    lstItems = _init(fileItems)
     while True:
         for item in lstItems:
             item.start()
@@ -30,9 +31,8 @@ def _runningAutomation():
         time.sleep(3600) #FOR TEST PURPOSE
         for item in lstItems:
             item.stop()
-        writingLine("UPDATING ALL OBJECTS! System Time: " + str(datetime.datetime.today()))
-        #_updateTimeSlots(lstItems)
-        lstItems = _init(lstItems)
+        writingLine("\nWEEKLY UPDATE OF THE OBJECTS! System Time: " + str(datetime.datetime.today()))
+        lstItems = _init(fileItems)
 
 def _listeningUser(lstItems):
     """
@@ -47,16 +47,16 @@ def _listeningUser(lstItems):
             for item in lstItems:
                 item.start()
         elif etat == "stop":
-            stopAllProcesses(lstItems)
+            _stopAllProcesses(lstItems)
         elif etat == "update":
             print("UPDATE TIMESLOTS")
             _updateTimeSlots(lstItems)
         else:
             print("ERROR: input '" + etat + "' incorrect! Please write one of the specific words asked for.")
         etat = input("Write 'start/stop/update/exit' to interact with the process: ")
-    stopAllProcesses(lstItems)
+    _stopAllProcesses(lstItems)
 
-def stopAllProcesses(lstItems):
+def _stopAllProcesses(lstItems):
     """
     @deprecated NOT USED IN FINAL VERSION
     Stops all the automation process of each IndoorItem instance.
@@ -71,39 +71,35 @@ def _updateTimeSlots(lstItems):
     Generates the suitable times and add them in the Items.
     :param lstItems: array of IndoorItem instances
     """
-    writingLine("GENERATE SUITABLE TIMESLOTS PER ITEM. System time: " + str(datetime.datetime.today()))
+    writingLine("\nGENERATE SUITABLE TIMESLOTS PER ITEM. System time: " + str(datetime.datetime.today()))
     for item in lstItems:
         Calculator.generateSuitableTimes(item) #, item.dataOn) #OLD VERSION IN COMMENT
 
-def _init(lstItems):
+def _init(file):
     """
     Initialisation of the software by creating instance of IndoorItem and generating the first TimeSlots of them.
-    :param lstItems: array of IndoorItem instances
+    :param file: String as file containing all items data
     :return: an array with the IndoorItem instances with their timeslots generated
     """
     ITEMS_FILE = "dataItems.csv"
-    DATA_ACTIONS = "dataAction.csv"
-
-    #Load Items in a list
-    writingLine("LOADING INDOOR ITEMS. System time: " + str(datetime.datetime.today()))
-    lstItems = ItemDao.readItem(ITEMS_FILE)
-
-    #Load StateAction in Items
-    writingLine("LOADING ACTIONS PER ITEM. System time: " + str(datetime.datetime.today()))
+    lstItems = []
+    writingLine("\nLOADING INDOOR ITEMS. System time: " + str(datetime.datetime.today()))
+    lstItems = ItemDao.readItem(file)
+    writingLine("\nLOADING ACTIONS PER ITEM. System time: " + str(datetime.datetime.today()))
     for item in lstItems:
         StateActionDao.readAllActions(item)
-
     _updateTimeSlots(lstItems)
-
-    #PRINT THE RESULT OF ALL SUITABLE TIMESLOTS GENERATED
-    # print("PRINTING RESULTS PHASE")
-    # for item in lstItems:
-    #     StrTo.strUnderline(item.name)
-    #     resOn = item.resDataOn
-    #     resOff = item.resDataOff
-    #     for i in range(len(resOn)):
-    #         print("On  = " + str((resOn[i]).time))
-    #         print("Off = " + str((resOff[i]).time))
-    #     print("END ITEM: " + str(item))
-
+    #PRINT THE RESULT OF ALL SUITABLE TIMESLOTS GENERATED - FOR TESTING PURPOSE
+    _printingTimeSlotsResult(lstItems)
     return lstItems
+
+def _printingTimeSlotsResult(lstItems):
+    print("PRINTING RESULTS PHASE")
+    for item in lstItems:
+        StrTo.strUnderline(item.name)
+        resOn = item.resDataOn
+        resOff = item.resDataOff
+        for i in range(len(resOn)):
+            print("On  = " + str((resOn[i]).time))
+            print("Off = " + str((resOff[i]).time))
+        print("END ITEM: " + str(item))
