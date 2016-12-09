@@ -12,38 +12,41 @@ DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
 """
 This Data Access Object (DAO) module is in charge of creating instances of StateAction for each ON/OFF event.
 """
-
-def readAllActions(item):
+def getOffActions(item):
     """
-    Fills int the IndoorItem instance with the StateAction ON/OFF instances regarding to the .csv file
-    stored into the instance.
+    Returns an array with the OFF StateAction instances of the item in parameter
     :param item: instance of IndoorItem
-    :return:
-    """
-    fillItemWithAction(item,item.fileDataOn)
-    fillItemWithAction(item, item.fileDataOff)
+    :return: array of OFF StateAction
+   """
+    return _getActionsItem(item.fileDataOff)
 
-def fillItemWithAction(item,fileName):
+
+def getOnActions(item):
+    """
+    Returns an array with the ON StateAction instances of the item in parameter
+    :param item: instance of IndoorItem
+    :return: array of ON StateAction
+    """
+    return _getActionsItem(item.fileDataOn)
+
+def _getActionsItem(fileName):
     """
     It reads the fileName and add the instances of StateAction into the instance of IndoorItem
-    :param item: instance of IndoorItem
-    :param fileName: a .csv file
+    :param fileName: a .csv file name available in the ressources folder
 
     """
+    data=[]
     try:
-        # read the file
         fichier = open(fileName, "r")
         actions = fichier.read()
-        # spread the line in a table
         tab = actions.splitlines()
-        # manage a line
         for actionLine in tab:
-            # create a State Action
             action = _readActionLine(actionLine)
-            # Affect the action to the object
-            item._addAction(action)
+            pos = Mauchly.getPosition(data, action)
+            data.insert(pos, action)
     except Exception:
         print("The file " + fileName + " does not exist!")
+    return data
 
 def _readActionLine(actionLine):
     """

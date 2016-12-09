@@ -25,14 +25,11 @@ def _runningAutomation():
     """
     lstItems = _init(fileItems)
     while True:
-        for item in lstItems:
-            item.start()
-        #time.sleep(3600*24*7) #WEEK STANDBY
-        time.sleep(3600) #FOR TEST PURPOSE
-        for item in lstItems:
-            item.stop()
-        writingLine("\nWEEKLY UPDATE OF THE OBJECTS! System Time: " + str(datetime.datetime.today()))
-        lstItems = _init(fileItems)
+        #time.sleep(3600*24*7)
+        time.sleep(3600)
+        writingLine("\nWEEKLY UPDATE OF THE OBJECTS AUTOMATION(each hour for testing)! System Time: " + str(datetime.datetime.today()))
+        _updateActions(lstItems)
+        _updateTimeSlots(lstItems)
 
 def _listeningUser(lstItems):
     """
@@ -65,6 +62,12 @@ def _stopAllProcesses(lstItems):
     for item in lstItems:
         item.stop()
 
+def _updateActions(lstItems):
+    writingLine("\nLOADING ACTIONS PER ITEM. System time: " + str(datetime.datetime.today()))
+    for item in lstItems:
+        item.setDataOn(StateActionDao.getOnActions(item))
+        item.setDataOff(StateActionDao.getOffActions(item))
+
 def _updateTimeSlots(lstItems):
     """
     @deprecated NOT USED IN FINAL VERSION
@@ -73,7 +76,12 @@ def _updateTimeSlots(lstItems):
     """
     writingLine("\nGENERATE SUITABLE TIMESLOTS PER ITEM. System time: " + str(datetime.datetime.today()))
     for item in lstItems:
-        Calculator.generateSuitableTimes(item) #, item.dataOn) #OLD VERSION IN COMMENT
+        item.stop()
+    for item in lstItems:
+        Calculator.generateSuitableTimes(item)
+    for item in lstItems:
+        item.start()
+
 
 def _init(file):
     """
@@ -85,9 +93,7 @@ def _init(file):
     lstItems = []
     writingLine("\nLOADING INDOOR ITEMS. System time: " + str(datetime.datetime.today()))
     lstItems = ItemDao.readItem(file)
-    writingLine("\nLOADING ACTIONS PER ITEM. System time: " + str(datetime.datetime.today()))
-    for item in lstItems:
-        StateActionDao.readAllActions(item)
+    _updateActions(lstItems)
     _updateTimeSlots(lstItems)
     #PRINT THE RESULT OF ALL SUITABLE TIMESLOTS GENERATED - FOR TESTING PURPOSE
     _printingTimeSlotsResult(lstItems)

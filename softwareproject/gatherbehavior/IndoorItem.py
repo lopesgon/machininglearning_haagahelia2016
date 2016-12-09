@@ -122,20 +122,27 @@ class IndoorItem(object):
         pos = Mauchly.getPosition(self.resDataOff, data)
         self.resDataOff.insert(pos, data)
 
-    def _addDataOn(self, data):
-        pos = Mauchly.getPosition(self.dataOn, data)
-        self.dataOn.insert(pos, data)
+    def setDataOn(self, data):
+        self._dataOn = data
 
-    def _addDataOff(self, data):
-        pos = Mauchly.getPosition(self.dataOff, data)
-        self.dataOff.insert(pos, data)
-        # self.dataOff.append(data)
+    def setDataOff(self, data):
+        self._dataOff = data
 
-    def _addAction(self, action):
-        if action.typeAction:
-            self._addDataOn(action)
-        else:
-            self._addDataOff(action)
+    # OLD CODE REPLACED -- should be kept for futur use in case of gathering behavior of users into items directly
+    # def _addDataOn(self, data):
+    #     pos = Mauchly.getPosition(self.dataOn, data)
+    #     self.dataOn.insert(pos, data)
+    #
+    # def _addDataOff(self, data):
+    #     pos = Mauchly.getPosition(self.dataOff, data)
+    #     self.dataOff.insert(pos, data)
+    #     # self.dataOff.append(data)
+    #
+    # def _addAction(self, action):
+    #     if action.typeAction:
+    #         self._addDataOn(action)
+    #     else:
+    #         self._addDataOff(action)
 
     def __eq__(self, other):
         if self is other:
@@ -155,16 +162,12 @@ class IndoorItem(object):
         """
         Start the independent process of the IndoorItem instance.
         """
-        print(self)
-        print(" /!\ STARTING /!\ ")
         self._listening(True)
 
     def stop(self):
         """
         Stop the independent process of the IndoorItem instance.
         """
-        print(self)
-        print(" /!\ STOP /!\ ")
         self._listening(False)
 
     def _listening(self, etat):
@@ -174,12 +177,11 @@ class IndoorItem(object):
         :param etat: boolean
         """
         if etat:
-            if self._t is not None:
-                self._t.kill()
-                self._t = None
+            #if self._t is None:
             self._t = ThreadTime(self)
             self._t.start()
+            #else:
+                #self._t.run()
         else:
             if self._t is not None:
-                self._t.kill()
-                self._t = None
+                self._t.stop()

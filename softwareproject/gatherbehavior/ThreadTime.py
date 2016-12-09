@@ -1,4 +1,4 @@
-import threading
+from threading import *
 import datetime
 import time
 from softwareproject.tools import TimeTools
@@ -10,51 +10,59 @@ ThreadTime class extends threading.Thread and is an independent process in the s
 It will allow each instance to behave in its own independently from the main process.
 """
 
-class ThreadTime(threading.Thread):
+class ThreadTime(Thread):
 
     def __init__(self, item):
         """
         Constructor
         :param item: IndoorItem instance
         """
-        threading.Thread.__init__(self)
-        self._etat = True
+        Thread.__init__(self)
         self._item = item
-        self._indNext = self._indNextEvent(self._item.resDataOn)
 
     def run(self):
         """
         Public method used to run the thread.
         """
+        self._etat=True
+        self._indNext = self._indNextEvent(self._item.resDataOn)
         self._running()
 
     def _running(self):
         """
         Run a continuous process which will set off the ON/OFF events of the IndoorItem known.
         """
+        switch=True
+        writingLine("\n /!\ STARTING /!\ " + str(self._item) + " PROCESS! System Time: " + str(datetime.datetime.today()) + "/!\ STARTING /!\ \n")
         while self._etat:
-            self._sleeping(self._item.resDataOn, self._indNext)
-            writingLine("\n" + str(self._item) + " TURN ON! System Time: " + str(datetime.datetime.today()) + "\n")
-            self._sleeping(self._item.resDataOff, self._indNext)
-            if(not self._etat):
-                break
-            writingLine("\n" + str(self._item) + " TURN OFF! System Time: " + str(datetime.datetime.today()) + "\n")
+            if switch:
+                self._sleeping(self._item.resDataOn, self._indNext)
+                if not self._etat:
+                    break
+                writingLine("\n" + str(self._item) + " TURN ON! System Time: " + str(datetime.datetime.today()) + "\n")
+            else:
+                self._sleeping(self._item.resDataOff, self._indNext)
+                if not self._etat:
+                    break
+                writingLine("\n" + str(self._item) + " TURN OFF! System Time: " + str(datetime.datetime.today()) + "\n")
+            switch = not switch
             self._indNext += 1
             if self._indNext > len(self._item.resDataOff)-1:
                 self._indNext = 0
+        writingLine("\n /!\ STOP /!\ " + str(self._item) + " PROCESS! System Time: " + str(datetime.datetime.today()) + "/!\ STOP /!\ \n")
 
     def stop(self):
         """
         Stops the process by changing the value of the loop condition to False
         """
-        self._etat =  False
+        self._etat=False
 
     def kill(self):
         """
         Kills the Thread by destroying the relation with its owner instance (IndoorItem instance).
         """
         self.stop()
-        self._item = None
+        self._item=None
 
     def _indNextEvent(self, dates):
         """
@@ -72,7 +80,7 @@ class ThreadTime(threading.Thread):
 
     def _sleeping(self, dates, ind):
         """
-        This method will stop the thread process during a determine time calculated in
+        This method will stop the thread process during determined time calculated in
         seconds till the next event of the array in parameter.
         :param dates: array of StateAction
         :param ind: index as int
