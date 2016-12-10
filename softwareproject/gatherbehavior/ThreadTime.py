@@ -1,4 +1,4 @@
-from threading import *
+from threading import Thread
 import datetime
 import time
 from softwareproject.tools import TimeTools
@@ -33,22 +33,22 @@ class ThreadTime(Thread):
         Run a continuous process which will set off the ON/OFF events of the IndoorItem known.
         """
         switch=True
-        writingLine("\n /!\ STARTING /!\ " + str(self._item) + " PROCESS! System Time: " + str(datetime.datetime.today()) + "/!\ STARTING /!\ \n")
+        writingLine("\n /!\ STARTING /!\ " + str(self._item) + " PROCESS! System Time: " + str(datetime.datetime.today()) + "/!\ STARTING /!\ ")
         while self._etat:
             if switch:
-                self._sleeping(self._item.resDataOn, self._indNext)
+                self._sleeping(self._item.resDataOn[self._indNext])
                 if not self._etat:
                     break
-                writingLine("\n" + str(self._item) + " TURN ON! System Time: " + str(datetime.datetime.today()) + "\n")
+                writingLine("\n" + str(self._item) + " TURN ON! System Time: " + str(datetime.datetime.today()))
             else:
-                self._sleeping(self._item.resDataOff, self._indNext)
+                self._sleeping(self._item.resDataOff[self._indNext])
                 if not self._etat:
                     break
-                writingLine("\n" + str(self._item) + " TURN OFF! System Time: " + str(datetime.datetime.today()) + "\n")
+                writingLine("\n" + str(self._item) + " TURN OFF! System Time: " + str(datetime.datetime.today()))
+                self._indNext += 1
+                if self._indNext > len(self._item.resDataOff) - 1:
+                    self._indNext = 0
             switch = not switch
-            self._indNext += 1
-            if self._indNext > len(self._item.resDataOff)-1:
-                self._indNext = 0
         writingLine("\n /!\ STOP /!\ " + str(self._item) + " PROCESS! System Time: " + str(datetime.datetime.today()) + "/!\ STOP /!\ \n")
 
     def stop(self):
@@ -78,17 +78,16 @@ class ThreadTime(Thread):
             return 0
         return ind
 
-    def _sleeping(self, dates, ind):
+    def _sleeping(self, nxtTime):
         """
         This method will stop the thread process during determined time calculated in
         seconds till the next event of the array in parameter.
-        :param dates: array of StateAction
-        :param ind: index as int
+        :param nxtTime: datetime
         """
         d = datetime.datetime.today()
-        timeSleeping = TimeTools.getSecondsFromTime(dates[ind].date) - TimeTools.getSecondsFromTime(d)
+        timeSleeping = TimeTools.getSecondsFromTime(nxtTime.date) - TimeTools.getSecondsFromTime(d)
         if timeSleeping < 0:
             timeSleeping = TimeTools.getSecondsFromTime(datetime.datetime(1970, 1, 1, int(23), int(59), int(59)))
             timeSleeping -= TimeTools.getSecondsFromTime(d)
-            timeSleeping += TimeTools.getSecondsFromTime(dates[ind].date)
+            timeSleeping += TimeTools.getSecondsFromTime(nxtTime.date)
         time.sleep(timeSleeping)

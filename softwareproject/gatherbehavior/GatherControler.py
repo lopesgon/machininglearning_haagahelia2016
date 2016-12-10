@@ -9,7 +9,9 @@ import datetime
 """
 This module is a controler which is in charge of managing all the items created and execute updates, gathering behavior, etc..
 """
-fileItems = "dataItems.csv"
+
+FILEITEMS = "dataItems.csv"
+
 def run():
     """
     Launch the software by creating instances and running the automation.
@@ -23,12 +25,13 @@ def _runningAutomation():
     Starts the software by executing the method start() of each IndoorItem instance.
     :param lstItems: array of IndoorItem instances
     """
-    lstItems = _init(fileItems)
+    lstItems = _init(FILEITEMS)
     while True:
-        time.sleep(3600*24*7+3600*2) #more than 1 week in case of problems, the items will be updated.
-        writingLine("\nWEEKLY UPDATE OF THE OBJECTS AUTOMATION(each hour for testing)! System Time: " + str(datetime.datetime.today()))
+        time.sleep(3600*24*7+3600) #more than 1 week in case of problems, the items will be updated.
+        writingLine("\nWEEKLY UPDATE OF THE OBJECTS AUTOMATION! System Time: " + str(datetime.datetime.today()))
         _updateActions(lstItems)
         _updateTimeSlots(lstItems)
+        _runAllProcesses(lstItems)
 
 def _listeningUser(lstItems):
     """
@@ -69,14 +72,18 @@ def _runAllProcesses(lstItems):
         item.start()
 
 def _updateActions(lstItems):
+    """
+    Set the StateAction events of each item.
+    :param lstItems: array of IndoorItems
+    """
     writingLine("\nLOADING ACTIONS PER ITEM. System time: " + str(datetime.datetime.today()))
+    _stopAllProcesses(lstItems)
     for item in lstItems:
         item.setDataOn(StateActionDao.getOnActions(item))
         item.setDataOff(StateActionDao.getOffActions(item))
 
 def _updateTimeSlots(lstItems):
     """
-    @deprecated NOT USED IN FINAL VERSION
     Generates the suitable times and add them in the Items.
     :param lstItems: array of IndoorItem instances
     """
@@ -84,7 +91,6 @@ def _updateTimeSlots(lstItems):
     _stopAllProcesses(lstItems)
     for item in lstItems:
         Calculator.generateSuitableTimes(item)
-    _runAllProcesses(lstItems)
 
 def _init(file):
     """
@@ -92,18 +98,17 @@ def _init(file):
     :param file: String as file containing all items data
     :return: an array with the IndoorItem instances with their timeslots generated
     """
-    ITEMS_FILE = "dataItems.csv"
-    lstItems = []
     writingLine("\nLOADING INDOOR ITEMS. System time: " + str(datetime.datetime.today()))
     lstItems = ItemDao.readItem(file)
     _updateActions(lstItems)
     _updateTimeSlots(lstItems)
+    _runAllProcesses(lstItems)
     #PRINT THE RESULT OF ALL SUITABLE TIMESLOTS GENERATED - FOR TESTING PURPOSE
     #_printingTimeSlotsResult(lstItems)
     return lstItems
 
 def _printingTimeSlotsResult(lstItems):
-    print("PRINTING RESULTS PHASE")
+    print("\nPRINTING RESULTS PHASE")
     for item in lstItems:
         StrTo.strUnderline(item.name)
         resOn = item.resDataOn

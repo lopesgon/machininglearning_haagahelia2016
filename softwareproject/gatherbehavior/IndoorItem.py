@@ -177,11 +177,8 @@ class IndoorItem(object):
         :param etat: boolean
         """
         if etat:
-            #if self._t is None:
             self._t = ThreadTime(self)
             self._t.start()
-            #else:
-                #self._t.run()
         else:
             if self._t is not None:
-                self._t.kill()
+                self._t.stop()
