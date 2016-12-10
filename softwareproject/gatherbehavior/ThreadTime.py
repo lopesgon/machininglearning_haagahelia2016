@@ -3,7 +3,7 @@ import datetime
 import time
 from softwareproject.tools import TimeTools
 from softwareproject.gatherbehavior.IndoorItem import *
-from softwareproject.base.TestingDao import writingLine
+from softwareproject.base.LogDao import writingLine
 
 """
 ThreadTime class extends threading.Thread and is an independent process in the software.

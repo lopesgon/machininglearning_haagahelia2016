@@ -7,7 +7,7 @@
 #2016-2017, semester 5
 
 from softwareproject.gatherbehavior.GatherControler import *
-from softwareproject.base.TestingDao import writingLine
+from softwareproject.base.LogDao import writingLine
 import os
 import datetime
 

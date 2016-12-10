@@ -2,7 +2,7 @@ from softwareproject.base import ItemDao
 from softwareproject.base import StateActionDao
 from softwareproject.machinelearning import Calculator
 from softwareproject.tools import StrTo
-from softwareproject.base.TestingDao import writingLine
+from softwareproject.base.LogDao import writingLine
 import time
 import datetime
 
@@ -25,8 +25,7 @@ def _runningAutomation():
     """
     lstItems = _init(fileItems)
     while True:
-        #time.sleep(3600*24*7)
-        time.sleep(3600)
+        time.sleep(3600*24*7+3600*2) #more than 1 week in case of problems, the items will be updated.
         writingLine("\nWEEKLY UPDATE OF THE OBJECTS AUTOMATION(each hour for testing)! System Time: " + str(datetime.datetime.today()))
         _updateActions(lstItems)
         _updateTimeSlots(lstItems)
@@ -55,12 +54,19 @@ def _listeningUser(lstItems):
 
 def _stopAllProcesses(lstItems):
     """
-    @deprecated NOT USED IN FINAL VERSION
     Stops all the automation process of each IndoorItem instance.
     :param lstItems: array of IndoorItem instances
     """
     for item in lstItems:
         item.stop()
+
+def _runAllProcesses(lstItems):
+    """
+    Run all automation process of each instance receive in parameter
+    :param lstItems: array of IndoorItem
+    """
+    for item in lstItems:
+        item.start()
 
 def _updateActions(lstItems):
     writingLine("\nLOADING ACTIONS PER ITEM. System time: " + str(datetime.datetime.today()))
@@ -75,13 +81,10 @@ def _updateTimeSlots(lstItems):
     :param lstItems: array of IndoorItem instances
     """
     writingLine("\nGENERATE SUITABLE TIMESLOTS PER ITEM. System time: " + str(datetime.datetime.today()))
-    for item in lstItems:
-        item.stop()
+    _stopAllProcesses(lstItems)
     for item in lstItems:
         Calculator.generateSuitableTimes(item)
-    for item in lstItems:
-        item.start()
-
+    _runAllProcesses(lstItems)
 
 def _init(file):
     """
@@ -96,7 +99,7 @@ def _init(file):
     _updateActions(lstItems)
     _updateTimeSlots(lstItems)
     #PRINT THE RESULT OF ALL SUITABLE TIMESLOTS GENERATED - FOR TESTING PURPOSE
-    _printingTimeSlotsResult(lstItems)
+    #_printingTimeSlotsResult(lstItems)
     return lstItems
 
 def _printingTimeSlotsResult(lstItems):

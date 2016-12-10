@@ -184,4 +184,4 @@ class IndoorItem(object):
                 #self._t.run()
         else:
             if self._t is not None:
-                self._t.stop()
+                self._t.kill()
