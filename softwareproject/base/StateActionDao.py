@@ -33,7 +33,7 @@ def _getActionsItem(fileName):
     """
     It reads the fileName and add the instances of StateAction into the instance of IndoorItem
     :param fileName: a .csv file name available in the ressources folder
-
+    :return: array of StateAction
     """
     data=[]
     try:

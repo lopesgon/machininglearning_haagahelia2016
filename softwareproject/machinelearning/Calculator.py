@@ -12,17 +12,13 @@ This module is providing the algorithm which generates suitable Time slots for a
 regarding to the ON/OFF StateAction events of it.
 """
 
-def generateSuitableTimes(item): #, lstStateActions):
+def generateSuitableTimes(item):
     """
     Generate and return a list of ON time slots
     :param item: instance of an IndoorItem
-    :param lstStateActions:
-    :return:
     """
     dataOn = item.dataOn
     if len(dataOn)>0:
-        #Create the tree and place the StateActions in the right leaf
-        #lstHours = _manageAction(lstStateActions) #Old version is in comment.
         lstHours = _manageAction(dataOn)
         lstMemories = _getLstMemories(item, lstHours)
         frequency = MathTools.getFrequencyFromMemories(lstMemories)
@@ -100,7 +96,7 @@ def _getLstMemories(item, lstHours):
     Shows the different time slots generated for the tree received in parameter
     :param item: instance of IndoorItem
     :param lstHours: tree of all StateAction instances
-    :return:
+    :return: array of MemoryFrequency
     """
     sumFrequency = int(0)
     tabMemoryFreq = []
@@ -115,7 +111,6 @@ def _getLstMemories(item, lstHours):
 
 def _getLstTimeResult(tabMemoryFreq,lstHours):
     """
-
     :param tabMemoryFreq: array
     :param lstHours: array
     :return: array with suitable StateAction made of the suitable time
